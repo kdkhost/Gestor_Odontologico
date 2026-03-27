@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestor Odontologico - Guia de Implantacao</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #f5f1e8;
+            --panel: rgba(255, 255, 255, 0.92);
+            --ink: #1f2937;
+            --muted: #6b7280;
+            --line: #e5dccd;
+            --accent: #ad7d18;
+            --accent-strong: #7c5a11;
+            --ok: #0f766e;
+            --warn: #9a3412;
+            --code: #111827;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #181613;
+                --panel: rgba(30, 27, 24, 0.96);
+                --ink: #f9fafb;
+                --muted: #d1d5db;
+                --line: #3f3b36;
+                --accent: #f6b436;
+                --accent-strong: #ffe2a6;
+                --ok: #2dd4bf;
+                --warn: #fb923c;
+                --code: #0b0f19;
+            }
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top right, rgba(246, 180, 54, 0.18), transparent 28%),
+                linear-gradient(180deg, rgba(173, 125, 24, 0.08), transparent 18%),
+                var(--bg);
+            color: var(--ink);
+        }
+        a { color: inherit; }
+        .shell {
+            display: grid;
+            grid-template-columns: 310px minmax(0, 1fr);
+            min-height: 100vh;
+        }
+        .sidebar {
+            position: sticky;
+            top: 0;
+            align-self: start;
+            height: 100vh;
+            overflow: auto;
+            border-right: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            padding: 32px 24px;
+        }
+        .brand {
+            margin-bottom: 24px;
+        }
+        .brand small {
+            display: inline-flex;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(173, 125, 24, 0.12);
+            color: var(--accent-strong);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .brand h1 {
+            margin: 12px 0 8px;
+            font-size: 1.8rem;
+            line-height: 1.15;
+        }
+        .brand p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .nav {
+            display: grid;
+            gap: 8px;
+        }
+        .nav a {
+            display: block;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+            color: var(--muted);
+        }
+        .nav a:hover,
+        .nav a:focus {
+            background: rgba(173, 125, 24, 0.08);
+            border-color: rgba(173, 125, 24, 0.18);
+            color: var(--ink);
+        }
+        .content {
+            padding: 32px;
+        }
+        .hero,
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(17, 24, 39, 0.08);
+        }
+        .hero {
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .hero h2 {
+            margin: 0 0 10px;
+            font-size: 2rem;
+            line-height: 1.15;
+        }
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+        .grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 22px;
+        }
+        .metric {
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .metric strong {
+            display: block;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+        section {
+            margin-bottom: 22px;
+        }
+        .card {
+            padding: 24px;
+        }
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.35rem;
+        }
+        .card p,
+        .card li {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+        .checklist,
+        .steps,
+        .bullets {
+            padding-left: 20px;
+            margin: 14px 0 0;
+        }
+        .callout {
+            border-left: 4px solid var(--accent);
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(173, 125, 24, 0.08);
+            margin-top: 14px;
+            color: var(--ink);
+        }
+        .callout.ok { border-left-color: var(--ok); }
+        .callout.warn { border-left-color: var(--warn); }
+        .code-wrap {
+            margin-top: 16px;
+        }
+        pre {
+            margin: 0;
+            padding: 18px;
+            overflow: auto;
+            border-radius: 18px;
+            background: var(--code);
+            color: #f3f4f6;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .copy {
+            margin: 0 0 10px auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            font: inherit;
+        }
+        .copy:hover { border-color: var(--accent); color: var(--accent-strong); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: top;
+        }
+        th {
+            font-size: 0.92rem;
+            color: var(--ink);
+        }
+        td {
+            color: var(--muted);
+        }
+        .badge {
+            display: inline-flex;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: rgba(15, 118, 110, 0.12);
+            color: var(--ok);
+        }
+        .footer {
+            margin-top: 26px;
+            padding: 18px 0 8px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        @media (max-width: 1100px) {
+            .shell { grid-template-columns: 1fr; }
+            .sidebar {
+                position: static;
+                height: auto;
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+            }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <small>Documentacao HTML</small>
+                <h1>Gestor Odontologico</h1>
+                <p>Guia operacional de implantacao, cron, integracoes e configuracao completa do sistema.</p>
+            </div>
+
+            <nav class="nav">
+                <a href="#visao-geral">Visao geral</a>
+                <a href="#requisitos">Requisitos do servidor</a>
+                <a href="#implantacao">Implantacao no cPanel</a>
+                <a href="#instalador">Instalador web</a>
+                <a href="#pos-instalacao">Pos-instalacao</a>
+                <a href="#integracoes">Integracoes</a>
+                <a href="#cron">Cron e scheduler</a>
+                <a href="#node">Node.js</a>
+                <a href="#seguranca">Boas praticas</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <section id="visao-geral" class="hero">
+                <h2>Guia de implantacao e configuracao do sistema</h2>
+                <p>
+                    Este material cobre a ordem recomendada de implantacao do sistema, os ajustes obrigatorios no servidor,
+                    as configuracoes internas do painel, os comandos cron e a leitura pratica das integracoes existentes.
+                </p>
+
+                <div class="grid">
+                    <div class="metric">
+                        <strong>Laravel 12</strong>
+                        <span>Base principal do sistema, compatível com PHP 8.4+.</span>
+                    </div>
+                    <div class="metric">
+                        <strong>Filament 4</strong>
+                        <span>Painel administrativo multiunidade com rotinas operacionais.</span>
+                    </div>
+                    <div class="metric">
+                        <strong>Sem Node obrigatorio</strong>
+                        <span>O pacote entregue roda sem build frontend adicional no servidor.</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="requisitos" class="card">
+                <h3>1. Requisitos do servidor</h3>
+                <ul class="checklist">
+                    <li>PHP 8.4 ou superior.</li>
+                    <li>MariaDB recomendado. SQLite funciona para teste rapido.</li>
+                    <li>Extensoes PHP: <code>pdo</code>, <code>pdo_mysql</code>, <code>openssl</code>, <code>mbstring</code>, <code>json</code>, <code>fileinfo</code>, <code>curl</code>, <code>gd</code>, <code>zip</code>.</li>
+                    <li>Permissao de escrita em <code>storage/</code> e <code>bootstrap/cache/</code>.</li>
+                    <li>Suporte a cron do cPanel.</li>
+                    <li>HTTPS ativo para portal, webhooks e PWA.</li>
+                </ul>
+                <div class="callout ok">
+                    Recomendacao pratica: use PHP 8.4 com extensoes completas, banco MariaDB separado por ambiente e certificado SSL ativo antes de abrir o portal do paciente.
+                </div>
+            </section>
+
+            <section id="implantacao" class="card">
+                <h3>2. Implantacao no cPanel / CloudLinux</h3>
+                <ol class="steps">
+                    <li>Envie o arquivo ZIP do projeto e extraia dentro da pasta da aplicacao.</li>
+                    <li>Garanta que o arquivo <code>index.php</code> e o <code>.htaccess</code> da raiz permaneçam ativos para ocultar <code>/public</code> da URL.</li>
+                    <li>Crie o banco de dados MariaDB no cPanel e registre nome, usuario, senha e host.</li>
+                    <li>Defina a versao do PHP da conta para 8.4 ou superior.</li>
+                    <li>Garanta permissao de escrita para <code>storage</code> e <code>bootstrap/cache</code>.</li>
+                    <li>Se usar subdominio, aponte o document root para a raiz do projeto, nao para <code>/public</code>.</li>
+                </ol>
+
+                <div class="code-wrap">
+                    <button class="copy" data-copy="cmd-cpanel">Copiar comandos base</button>
+                    <pre id="cmd-cpanel">composer install --no-dev --optimize-autoloader
+php artisan key:generate
+php artisan storage:link
+php artisan migrate --seed</pre>
+                </div>
+
+                <div class="callout warn">
+                    Se o servidor bloquear <code>composer install</code>, faca a instalacao localmente, compacte a pasta completa com <code>vendor/</code> e envie o pacote final ja pronto.
+                </div>
+            </section>
+
+            <section id="instalador" class="card">
+                <h3>3. Instalador web</h3>
+                <p>Acesse <code>/instalar</code>. O instalador valida requisitos, grava o <code>.env</code>, testa banco, executa migracoes, seed e cria o primeiro superadmin.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Etapa</th>
+                            <th>O que preencher</th>
+                            <th>Observacao</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aplicacao</td>
+                            <td>Nome do sistema, URL base, timezone, ambiente.</td>
+                            <td>Use a URL final em producao com HTTPS.</td>
+                        </tr>
+                        <tr>
+                            <td>Banco</td>
+                            <td>Host, porta, nome do banco, usuario e senha.</td>
+                            <td>MariaDB em producao. SQLite apenas para homologacao.</td>
+                        </tr>
+                        <tr>
+                            <td>Superadmin</td>
+                            <td>Nome, e-mail e senha do primeiro acesso.</td>
+                            <td>Use um e-mail real para futuras rotinas administrativas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="pos-instalacao" class="card">
+                <h3>4. Pos-instalacao e ordem de configuracao no painel</h3>
+                <ol class="steps">
+                    <li><strong>Configuracoes do sistema:</strong> nome da aplicacao, rodape, versao, tour inicial, regras globais do WhatsApp.</li>
+                    <li><strong>Unidades:</strong> cadastro completo, CEP, telefone, WhatsApp, dados fiscais, parametros de NFSe.</li>
+                    <li><strong>Usuarios e perfis:</strong> superadmin, admin-unidade, recepcao, dentista, financeiro e estoque.</li>
+                    <li><strong>Profissionais:</strong> vincule o usuario, CRO, especialidade, cor da agenda e percentual de comissao.</li>
+                    <li><strong>Cadeiras / salas:</strong> organize os recursos que entram no conflito de agenda.</li>
+                    <li><strong>Procedimentos e planos:</strong> base de atendimento, duracao, preco e regras de consumo.</li>
+                    <li><strong>Templates de notificacao:</strong> WhatsApp operacional, lembretes, cobrancas, reativacao e assinatura.</li>
+                    <li><strong>PWA:</strong> nome do app, icones, push e comportamento do portal quando instalado.</li>
+                    <li><strong>Financeiro:</strong> Mercado Pago, parcelamentos internos, repasses e BI.</li>
+                    <li><strong>Faturamento fiscal:</strong> valide dados fiscais da unidade antes de emitir NFSe.</li>
+                </ol>
+            </section>
+
+            <section id="integracoes" class="card">
+                <h3>5. Integracoes e configuracoes importantes</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Integracao</th>
+                            <th>O que configurar</th>
+                            <th>Rotas / observacoes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ViaCEP</td>
+                            <td>Nao exige token. O sistema usa consulta automatica de CEP.</td>
+                            <td>Usado em cadastro de unidade e paciente.</td>
+                        </tr>
+                        <tr>
+                            <td>Evolution API</td>
+                            <td>Base URL, token, instancia e regras de envio.</td>
+                            <td>Webhook: <code>/webhooks/evolution</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>Mercado Pago</td>
+                            <td>Access token, public key e webhook ativo.</td>
+                            <td>Webhook: <code>/webhooks/mercadopago</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>Web Push</td>
+                            <td>Public key, private key e subject.</td>
+                            <td>Usado para o PWA e notificacoes do portal.</td>
+                        </tr>
+                        <tr>
+                            <td>NFSe</td>
+                            <td>Hoje o sistema suporta fluxo manual e mock/homologacao.</td>
+                            <td>Prepare a unidade com inscricao municipal, codigo de servico, aliquota e serie RPS.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="cron" class="card">
+                <h3>6. Cron e scheduler</h3>
+                <p>O modelo recomendado em hospedagem compartilhada e usar um unico cron chamando <code>schedule:run</code> a cada minuto. O proprio Laravel dispara as rotinas internas nas frequencias corretas.</p>
+
+                <div class="code-wrap">
+                    <button class="copy" data-copy="cron-principal">Copiar cron principal</button>
+                    <pre id="cron-principal">* * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan schedule:run >> /dev/null 2>&1</pre>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Comando</th>
+                            <th>Frequencia recomendada</th>
+                            <th>Finalidade</th>
+                            <th>Necessario?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>php artisan schedule:run</code></td>
+                            <td>A cada 1 minuto</td>
+                            <td>Aciona o scheduler do Laravel, incluindo automacao operacional e fila fiscal.</td>
+                            <td><span class="badge">Obrigatorio</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>php artisan clinic:automation-run</code></td>
+                            <td>A cada 15 minutos</td>
+                            <td>Roda lembretes, cobranca preventiva e reativacao.</td>
+                            <td>Opcional direto. Ja esta dentro do scheduler.</td>
+                        </tr>
+                        <tr>
+                            <td><code>php artisan clinic:nfse-submit --limit=30</code></td>
+                            <td>A cada 15 minutos</td>
+                            <td>Processa a fila de NFSe pendente e gera protocolo.</td>
+                            <td>Opcional direto. Ja esta dentro do scheduler.</td>
+                        </tr>
+                        <tr>
+                            <td><code>php artisan clinic:commission-sync</code></td>
+                            <td>Manual ou 1 vez por madrugada</td>
+                            <td>Reprocessa comissoes de contas pagas antigas.</td>
+                            <td>Opcional.</td>
+                        </tr>
+                        <tr>
+                            <td><code>php artisan clinic:commission-close --from=AAAA-MM-01 --to=AAAA-MM-31</code></td>
+                            <td>Manual ou cron mensal customizado</td>
+                            <td>Fecha lotes de repasse por periodo informado.</td>
+                            <td>Opcional e exige periodo explicito.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-wrap">
+                    <button class="copy" data-copy="cron-diretos">Copiar crons diretos opcionais</button>
+                    <pre id="cron-diretos">*/15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:automation-run >> /home/USUARIO/logs/automation.log 2>&1
+*/15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:nfse-submit --limit=30 >> /home/USUARIO/logs/nfse.log 2>&1
+5 2 * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:commission-sync >> /home/USUARIO/logs/commission-sync.log 2>&1</pre>
+                </div>
+
+                <div class="callout">
+                    Se voce usar o cron principal com <code>schedule:run</code>, nao precisa repetir os comandos <code>clinic:automation-run</code> e <code>clinic:nfse-submit</code> em crons separados.
+                </div>
+
+                <div class="callout warn">
+                    O comando <code>clinic:commission-close</code> nao deve ser automatizado sem uma politica clara de periodo de fechamento. O ideal e executar manualmente no fechamento financeiro de cada unidade.
+                </div>
+            </section>
+
+            <section id="node" class="card">
+                <h3>7. Preciso rodar Node.js?</h3>
+                <p><strong>Para colocar este projeto em producao do jeito que foi entregue, nao.</strong> O sistema atual nao depende de build frontend em tempo de execucao para funcionar no servidor.</p>
+
+                <ul class="bullets">
+                    <li>Existe <code>package.json</code> no projeto porque a base Laravel traz Vite para desenvolvimento.</li>
+                    <li>Nesta entrega, o sistema nao usa <code>@vite</code> nas views principais.</li>
+                    <li>Voce so precisa de Node.js se for alterar frontend, recompilar assets ou iniciar ambiente local com Vite.</li>
+                </ul>
+
+                <div class="code-wrap">
+                    <button class="copy" data-copy="node-opcional">Copiar comandos de desenvolvimento frontend</button>
+                    <pre id="node-opcional">npm install
+npm run dev
+# ou, para build local
+npm run build</pre>
+                </div>
+
+                <div class="callout ok">
+                    Resposta curta: em producao, com o pacote entregue, voce nao precisa rodar nenhum comando de Node.js para o sistema subir.
+                </div>
+            </section>
+
+            <section id="seguranca" class="card">
+                <h3>8. Boas praticas finais antes de abrir o sistema</h3>
+                <ul class="checklist">
+                    <li>Trocar a senha inicial do superadmin.</li>
+                    <li>Configurar SSL e forcar acesso HTTPS.</li>
+                    <li>Validar rodape, nome do desenvolvedor e versao do sistema.</li>
+                    <li>Revisar regras de horario de acesso por perfil.</li>
+                    <li>Validar opt-in de WhatsApp antes de disparos operacionais.</li>
+                    <li>Conferir unidade, dados fiscais e templates antes de emitir NFSe.</li>
+                    <li>Testar o cron principal e acompanhar logs nas primeiras 24 horas.</li>
+                </ul>
+
+                <div class="footer">
+                    Documento HTML funcional do projeto Gestor Odontologico. URL sugerida apos a implantacao: <code>/documentacao/</code>.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll('[data-copy]').forEach((button) => {
+            button.addEventListener('click', async () => {
+                const target = document.getElementById(button.dataset.copy);
+                if (!target) {
+                    return;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(target.textContent.trim());
+                    const original = button.textContent;
+                    button.textContent = 'Copiado';
+                    setTimeout(() => button.textContent = original, 1200);
+                } catch (error) {
+                    alert('Nao foi possivel copiar automaticamente. Copie manualmente o bloco de comando.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

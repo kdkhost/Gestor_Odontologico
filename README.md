@@ -1,0 +1,314 @@
+# Odonto Flow
+
+Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, Filament 4 e MariaDB/SQLite, com foco em operacao clinica, agenda, financeiro, estoque, portal do paciente, PWA e integracoes operacionais.
+
+## Escopo atual
+
+O projeto ja esta preparado para:
+
+- multiplas unidades;
+- painel administrativo em `/admin`;
+- portal do paciente em `/portal`;
+- solicitacao publica de consulta em `/`;
+- instalador automatico em `/instalar`;
+- agenda visual com FullCalendar 4;
+- documentos digitais com aceite;
+- financeiro com contas a receber, parcelamento interno e Mercado Pago;
+- estoque por unidade;
+- templates operacionais de WhatsApp;
+- regua automatica de lembrete, cobranca preventiva e reativacao;
+- dashboard executivo com widgets operacionais;
+- central operacional com prioridades acionaveis;
+- central de BI com metas, ranking profissional, comissao e exportacao CSV;
+- perfil 360 do paciente;
+- governanca de webhook com idempotencia;
+- protecao central contra conflito de agenda;
+- central tecnica de saude do sistema;
+- central de repasses com fechamento, pagamento e conciliacao;
+- gestao detalhada de repasses com comprovante anexado;
+- importacao de extrato para conciliacao assistida, incluindo OFX e perfil por banco;
+- central de faturamento fiscal com NFSe manual/homologacao, fila e protocolo;
+- manutencao com whitelist;
+- PWA com push e modo app quando instalado.
+
+## Stack tecnica
+
+- Laravel 12
+- PHP 8.4+
+- Filament 4
+- Livewire 3
+- MariaDB ou SQLite
+- Spatie Permission
+- Spatie Activitylog
+- DomPDF
+- Web Push / VAPID
+
+## Perfis previstos
+
+- `superadmin`
+- `admin-unidade`
+- `recepcao`
+- `dentista`
+- `financeiro`
+- `estoque`
+- `paciente`
+
+As permissoes sao modulares e geradas por acao e modulo a partir de `config/clinic.php`.
+
+## Fluxo principal
+
+1. O paciente solicita um horario no site publico.
+2. A recepcao confirma ou ajusta a agenda.
+3. O atendimento evolui no prontuario e no plano de tratamento.
+4. Documentos sao apresentados e aceitos digitalmente.
+5. O financeiro acompanha cobranca, parcelas e status.
+6. Templates de WhatsApp apoiam a comunicacao operacional.
+7. A comissao e calculada a partir do financeiro pago.
+8. O repasse e fechado, pago, documentado, importado no extrato e conciliado no painel.
+9. O faturamento fiscal pode transformar contas pagas em NFSe com fila, protocolo e emissao rastreavel.
+
+## Instalacao
+
+### Via instalador web
+
+Use a rota `/instalar`. O instalador:
+
+- valida requisitos tecnicos;
+- valida diretorios gravaveis;
+- testa a conexao com o banco;
+- grava o `.env`;
+- gera a chave da aplicacao;
+- executa migracoes e seed;
+- cria o primeiro superadmin;
+- registra a instalacao.
+
+### Via terminal
+
+```bash
+composer install
+php artisan key:generate
+php artisan migrate --seed
+php artisan storage:link
+```
+
+## Requisitos tecnicos
+
+- PHP 8.4 ou superior
+- extensoes:
+  - `pdo`
+  - `pdo_mysql`
+  - `pdo_sqlite`
+  - `openssl`
+  - `mbstring`
+  - `json`
+  - `fileinfo`
+  - `curl`
+  - `gd`
+  - `zip`
+- permissao de escrita em `storage/` e `bootstrap/cache/`
+
+## Configuracoes importantes
+
+As variaveis principais ficam em `.env.example`:
+
+- dados da aplicacao;
+- versao do sistema;
+- dados do desenvolvedor para o rodape do admin;
+- Mercado Pago;
+- Evolution API;
+- ViaCEP;
+- Web Push;
+- regras globais de seguranca do WhatsApp;
+- parametros da automacao operacional;
+- configuracao do tour inicial.
+
+## Rodape do admin
+
+O rodape do painel exibe:
+
+- informacoes do desenvolvedor;
+- versao do sistema;
+- versao atual do PHP;
+- botao para reiniciar o tour.
+
+Esses dados podem ser ajustados pelo painel em `Configuracoes do sistema`.
+
+## Tour inicial
+
+O painel possui um tour guiado reiniciavel para orientar:
+
+- navegacao lateral;
+- agenda visual;
+- templates de WhatsApp;
+- BI e metas;
+- central de repasses;
+- gestao detalhada de repasses;
+- importacao de extrato com OFX;
+- faturamento fiscal e notas fiscais;
+- configuracoes do sistema.
+
+## WhatsApp operacional
+
+Os templates podem ser personalizados no painel. A base tambem preve guardrails para reduzir risco operacional:
+
+- intervalo minimo entre envios;
+- limite por destinatario;
+- limite por minuto;
+- janela de envio comercial;
+- exigencia de opt-in quando configurada;
+- logs de bloqueio e envio;
+- formatacao final adequada para WhatsApp.
+
+Observacao importante: nenhuma automacao consegue garantir sozinha que um numero nunca sera restringido. O sistema aplica protecao operacional, mas o uso ainda depende de opt-in, conteudo adequado e politica oficial do canal.
+
+## Automacao operacional
+
+O painel possui a pagina `Configuracoes > Automacao`, com:
+
+- lembrete automatico para consultas confirmadas;
+- aviso preventivo de parcelas abertas ou vencendo;
+- reativacao controlada de pacientes sem retorno;
+- modo de previa sem disparo real;
+- log de execucao com contagem de encontrados, enviados, ignorados e falhos;
+- exigencia de opt-in explicito no cadastro publico e no portal do paciente.
+
+No cPanel, configure o cron:
+
+```bash
+php /caminho/do/projeto/artisan schedule:run >> /dev/null 2>&1
+```
+
+## BI, metas e comissao
+
+O painel possui uma central de `BI e metas` com:
+
+- leitura por periodo e por unidade;
+- receita recebida, producao concluida, ticket medio e novos pacientes;
+- ranking de profissionais com receita e comissao;
+- metas individuais por profissional com progresso real;
+- exportacao CSV de resumo, profissionais e metas;
+- calculo automatico de comissao a partir da conta a receber paga;
+- leitura financeira dos repasses pagos, conciliados e aguardando conciliacao.
+
+Para reprocessar comissoes de contas antigas ja pagas:
+
+```bash
+php artisan clinic:commission-sync
+```
+
+## Repasse de comissao
+
+O sistema possui uma `Central de repasses` no painel administrativo com:
+
+- leitura de comissoes pendentes prontas para fechamento;
+- fechamento por profissional e por periodo;
+- historico recente de lotes fechados;
+- baixa rapida do pagamento do repasse;
+- comando de fechamento em lote para uso operacional.
+
+Tambem existe a tela `Repasses detalhados`, com:
+
+- forma de pagamento do repasse;
+- referencia bancaria;
+- comprovante anexado;
+- usuario responsavel pelo pagamento;
+- referencia do extrato bancario;
+- usuario responsavel pela conciliacao;
+- observacoes de pagamento e conciliacao.
+
+Comando de fechamento:
+
+```bash
+php artisan clinic:commission-close --from=2026-03-01 --to=2026-03-31
+```
+
+## Importacao de extrato
+
+O sistema possui a central `Extrato e conciliacao`, com:
+
+- upload de arquivo CSV, TXT ou OFX do banco;
+- selecao de perfil bancario para melhorar o mapeamento das colunas;
+- deteccao automatica de delimitador;
+- leitura de colunas de data, descricao, valor e referencia;
+- parser OFX para movimentos financeiros em arquivos bancarios padrao;
+- sugestao de conciliacao por valor, referencia, data e descricao;
+- aplicacao individual ou em lote das sugestoes confiaveis;
+- historico de importacoes com total de linhas, sugestoes e conciliacoes efetivas.
+
+## Faturamento fiscal e NFSe
+
+O painel possui a central `Faturamento fiscal`, com:
+
+- leitura de contas pagas elegiveis para emissao fiscal;
+- bloqueio automatico quando faltam dados fiscais da unidade;
+- criacao de rascunhos de NFSe individuais ou em lote;
+- fila fiscal para protocolo de envio;
+- registro de RPS, protocolo, numero municipal e codigo de verificacao;
+- resource administrativo para acompanhar rascunho, fila, protocolo, emissao e cancelamento;
+- suporte atual aos perfis `manual` e `mock / homologacao`, preparando a base para integracao municipal futura.
+
+Para habilitar o fluxo, configure na unidade:
+
+- razao social;
+- CNPJ;
+- inscricao municipal;
+- codigo do municipio do servico;
+- codigo de servico padrao;
+- aliquota ISS padrao;
+- serie RPS;
+- CNAE quando aplicavel.
+
+Para processar a fila pelo terminal:
+
+```bash
+php artisan clinic:nfse-submit --limit=30
+```
+
+## Webhooks
+
+- Mercado Pago: `/webhooks/mercadopago`
+- Evolution API: `/webhooks/evolution`
+
+Os eventos recebidos sao registrados com trilha, hash de payload e protecao contra duplicidade.
+
+## PWA
+
+O sistema expoe:
+
+- manifest em `/pwa/manifest.json`;
+- service worker em `/pwa/sw.js`;
+- icones em `public/icons/`.
+
+Quando instalado, o portal assume comportamento visual de app. No navegador comum, mantem layout responsivo tradicional.
+
+## Testes
+
+Validacao usada no projeto:
+
+```bash
+php -c .tools/php.ini vendor/bin/phpunit
+```
+
+## Entregavel empacotado
+
+O pacote gerado do codigo-fonte fica em:
+
+- `g:\Tudo\MEU-SISTEMA\odonto-flow-codigo-fonte.zip`
+
+## Documentacao HTML
+
+Existe uma documentacao HTML funcional de implantacao, cron e configuracao em:
+
+- `public/documentacao/index.html`
+
+URL sugerida apos publicar o sistema:
+
+- `/documentacao/`
+
+## Proximas camadas recomendadas
+
+- integracao municipal real de NFSe por provedor e cidade;
+- convenios externos e TISS;
+- importacao OFX/CSV com mapeamento avancado por layout especifico de banco;
+- assinatura digital mais forte em documentos;
+- BI com metas comparativas por equipe e por especialidade.
