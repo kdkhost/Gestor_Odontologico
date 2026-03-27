@@ -1,6 +1,19 @@
-# Odonto Flow
+# Gestor Odontologico
 
 Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, Filament 4 e MariaDB/SQLite, com foco em operacao clinica, agenda, financeiro, estoque, portal do paciente, PWA e integracoes operacionais.
+
+## Visao rapida
+
+- instalador automatico web em `/instalar`;
+- painel administrativo multiunidade em `/admin`;
+- portal do paciente em `/portal`;
+- documentacao HTML operacional em `/documentacao/`;
+- publicacao oficial do codigo em `https://github.com/kdkhost/Gestor_Odontologico`.
+
+## Versao publicada
+
+- versao base atual: `1.11.1`
+- release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
 
@@ -89,6 +102,12 @@ composer install
 php artisan key:generate
 php artisan migrate --seed
 php artisan storage:link
+```
+
+### Cron principal recomendado
+
+```bash
+* * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan schedule:run >> /dev/null 2>&1
 ```
 
 ## Requisitos tecnicos
@@ -288,6 +307,10 @@ Validacao usada no projeto:
 ```bash
 php -c .tools/php.ini vendor/bin/phpunit
 ```
+
+## Node.js em producao
+
+Nao e obrigatorio para publicar o sistema em producao com o pacote entregue. O projeto so precisa de Node.js se voce quiser recompilar assets ou trabalhar com Vite no ambiente local.
 
 ## Entregavel empacotado
 

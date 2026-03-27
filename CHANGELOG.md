@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1] - 2026-03-27
+
+### Ajustado
+- alinhamento da identidade publica do repositorio para `Gestor Odontologico`;
+- documentacao principal do GitHub expandida com links, versao publicada e cron principal;
+- configuracao padrao de nome do sistema e versao atualizadas no arquivo de ambiente de exemplo.
+
 ## [1.11.0] - 2026-03-27
 
 ### Adicionado
