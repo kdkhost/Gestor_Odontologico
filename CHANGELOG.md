@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.15.2] - 2026-03-28
+
+### Ajustado
+- `.htaccess` da raiz passou a encaminhar rotas dinamicas diretamente para o `index.php` raiz, evitando 404 do instalador em alguns ambientes cPanel;
+- README e documentacao HTML agora destacam a dependencia dos arquivos `index.php` e `.htaccess` da raiz para a rota `/instalar`.
+
 ## [1.15.1] - 2026-03-28
 
 ### Ajustado

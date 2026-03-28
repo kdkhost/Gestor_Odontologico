@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'system_version' => env('SYSTEM_VERSION', '1.15.1'),
+    'system_version' => env('SYSTEM_VERSION', '1.15.2'),
 
     'developer' => [
         'name' => env('DEVELOPER_NAME', ''),

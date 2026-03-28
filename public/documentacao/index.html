@@ -336,6 +336,10 @@ php artisan migrate --seed</pre>
                 <div class="callout warn">
                     Se o arquivo <code>.env</code> nao existir, o Laravel vai cair nos fallbacks do projeto e pode tentar usar SQLite. Em producao, crie o <code>.env</code> primeiro e configure o MariaDB antes de rodar migrate.
                 </div>
+
+                <div class="callout">
+                    Se <code>/instalar</code> responder <code>404</code>, revise o envio dos arquivos <code>index.php</code> e <code>.htaccess</code> da raiz do projeto. Eles encaminham as rotas amigaveis para o front controller sem expor <code>/public</code>.
+                </div>
             </section>
 
             <section id="instalador" class="card">

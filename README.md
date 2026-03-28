@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.15.1`
+- versao base atual: `1.15.2`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -100,6 +100,8 @@ Use a rota `/instalar`. O instalador:
 - executa migracoes e seed;
 - cria o primeiro superadmin;
 - registra a instalacao.
+
+Se `/instalar` responder `404` no cPanel, confirme primeiro que os arquivos [index.php](g:\Tudo\MEU-SISTEMA\CLINICA%20ODONTOLOGICA\index.php) e [.htaccess](g:\Tudo\MEU-SISTEMA\CLINICA%20ODONTOLOGICA\.htaccess) da raiz foram enviados junto com o projeto. Eles sao os responsaveis por encaminhar as rotas amigaveis para o Laravel sem expor `/public` na URL.
 
 ### Via terminal
 
