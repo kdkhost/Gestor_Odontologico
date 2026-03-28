@@ -65,17 +65,17 @@
                 <div class="grid grid-2">
                     <label>Banco de dados
                         <select name="db_connection" required>
-                            <option value="sqlite" @selected(old('db_connection') === 'sqlite')>SQLite local</option>
+                            <option value="mariadb" @selected(old('db_connection', 'mariadb') === 'mariadb')>MariaDB</option>
                             <option value="mysql" @selected(old('db_connection') === 'mysql')>MySQL</option>
-                            <option value="mariadb" @selected(old('db_connection') === 'mariadb')>MariaDB</option>
+                            <option value="sqlite" @selected(old('db_connection') === 'sqlite')>SQLite local</option>
                         </select>
                     </label>
-                    <label>Host<input type="text" name="db_host" value="{{ old('db_host', '127.0.0.1') }}"></label>
+                    <label>Host<input type="text" name="db_host" value="{{ old('db_host', 'localhost') }}"></label>
                 </div>
 
                 <div class="grid grid-3">
                     <label>Porta<input type="text" name="db_port" value="{{ old('db_port', '3306') }}"></label>
-                    <label>Database<input type="text" name="db_database" value="{{ old('db_database', database_path('database.sqlite')) }}"></label>
+                    <label>Database<input type="text" name="db_database" value="{{ old('db_database') }}"></label>
                     <label>Usuário<input type="text" name="db_username" value="{{ old('db_username') }}"></label>
                 </div>
 

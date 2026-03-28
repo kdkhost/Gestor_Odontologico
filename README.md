@@ -1,6 +1,6 @@
 # Gestor Odontologico
 
-Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, Filament 4 e MariaDB/SQLite, com foco em operacao clinica, agenda, financeiro, estoque, portal do paciente, PWA e integracoes operacionais.
+Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, Filament 4 e MariaDB como banco principal, com SQLite opcional apenas para testes ou homologacao local.
 
 ## Visao rapida
 
@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.15.0`
+- versao base atual: `1.15.1`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -54,7 +54,8 @@ O projeto ja esta preparado para:
 - PHP 8.4+
 - Filament 4
 - Livewire 3
-- MariaDB ou SQLite
+- MariaDB como padrao
+- SQLite apenas para testes ou ambiente local opcional
 - Spatie Permission
 - Spatie Activitylog
 - DomPDF
@@ -104,6 +105,8 @@ Use a rota `/instalar`. O instalador:
 
 ```bash
 composer install
+cp .env.example .env
+# edite o .env com os dados reais do MariaDB antes de continuar
 php artisan key:generate
 php artisan migrate --seed
 php artisan storage:link
@@ -121,7 +124,7 @@ php artisan storage:link
 - extensoes:
   - `pdo`
   - `pdo_mysql`
-  - `pdo_sqlite`
+  - `pdo_sqlite` apenas se voce realmente quiser usar SQLite local
   - `openssl`
   - `mbstring`
   - `json`

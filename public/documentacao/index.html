@@ -326,13 +326,15 @@
                 <div class="code-wrap">
                     <button class="copy" data-copy="cmd-cpanel">Copiar comandos base</button>
                     <pre id="cmd-cpanel">composer install --no-dev --optimize-autoloader
+cp .env.example .env
+# edite o .env com os dados reais do MariaDB
 php artisan key:generate
 php artisan storage:link
 php artisan migrate --seed</pre>
                 </div>
 
                 <div class="callout warn">
-                    Se o servidor bloquear <code>composer install</code>, faca a instalacao localmente, compacte a pasta completa com <code>vendor/</code> e envie o pacote final ja pronto.
+                    Se o arquivo <code>.env</code> nao existir, o Laravel vai cair nos fallbacks do projeto e pode tentar usar SQLite. Em producao, crie o <code>.env</code> primeiro e configure o MariaDB antes de rodar migrate.
                 </div>
             </section>
 

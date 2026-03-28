@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.1] - 2026-03-28
+
+### Ajustado
+- MariaDB passou a ser o banco padrao no `.env.example`, no fallback do `config/database.php` e nas configuracoes de fila em banco;
+- instalador agora trata `pdo_sqlite` como extensao opcional, sem bloquear ambientes que usam apenas MariaDB;
+- formulario do instalador passou a abrir com MariaDB preselecionado, host `localhost` e campo de database em branco;
+- documentacao e README agora deixam explicito que o `.env` precisa ser criado antes de rodar `key:generate` e `migrate` em producao.
+
 ## [1.15.0] - 2026-03-27
 
 ### Adicionado

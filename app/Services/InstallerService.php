@@ -31,16 +31,16 @@ class InstallerService
         $phpOk = version_compare(PHP_VERSION, '8.4.0', '>=');
 
         $extensions = [
-            ['label' => 'pdo', 'ok' => extension_loaded('pdo')],
-            ['label' => 'pdo_sqlite', 'ok' => extension_loaded('pdo_sqlite')],
-            ['label' => 'pdo_mysql', 'ok' => extension_loaded('pdo_mysql')],
-            ['label' => 'openssl', 'ok' => extension_loaded('openssl')],
-            ['label' => 'mbstring', 'ok' => extension_loaded('mbstring')],
-            ['label' => 'json', 'ok' => extension_loaded('json')],
-            ['label' => 'fileinfo', 'ok' => extension_loaded('fileinfo')],
-            ['label' => 'curl', 'ok' => extension_loaded('curl')],
-            ['label' => 'gd', 'ok' => extension_loaded('gd')],
-            ['label' => 'zip', 'ok' => extension_loaded('zip')],
+            ['label' => 'pdo', 'ok' => extension_loaded('pdo'), 'required' => true],
+            ['label' => 'pdo_mysql', 'ok' => extension_loaded('pdo_mysql'), 'required' => true],
+            ['label' => 'openssl', 'ok' => extension_loaded('openssl'), 'required' => true],
+            ['label' => 'mbstring', 'ok' => extension_loaded('mbstring'), 'required' => true],
+            ['label' => 'json', 'ok' => extension_loaded('json'), 'required' => true],
+            ['label' => 'fileinfo', 'ok' => extension_loaded('fileinfo'), 'required' => true],
+            ['label' => 'curl', 'ok' => extension_loaded('curl'), 'required' => true],
+            ['label' => 'gd', 'ok' => extension_loaded('gd'), 'required' => true],
+            ['label' => 'zip', 'ok' => extension_loaded('zip'), 'required' => true],
+            ['label' => 'pdo_sqlite (opcional para SQLite local)', 'ok' => extension_loaded('pdo_sqlite'), 'required' => false],
         ];
 
         $paths = [
@@ -50,7 +50,7 @@ class InstallerService
 
         return [
             'ready' => $phpOk
-                && collect($extensions)->every(fn (array $item) => $item['ok'])
+                && collect($extensions)->every(fn (array $item) => ! $item['required'] || $item['ok'])
                 && collect($paths)->every(fn (array $item) => $item['ok']),
             'php' => [
                 'current' => PHP_VERSION,
