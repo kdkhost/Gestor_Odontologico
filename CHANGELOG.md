@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.5] - 2026-03-28
+
+### Ajustado
+- login administrativo agora recua automaticamente para `session.driver=file` quando a tabela `sessions` nao esta disponivel, evitando erro 500 em `/admin/login`;
+- leitura de configuracoes do painel agora tolera falha no cache persistente e indisponibilidade da tabela `system_settings`, mantendo a tela de login operante;
+- cobertura automatizada adicionada para abrir `/admin/login` mesmo sem as tabelas `sessions` e `cache`.
+
 ## [1.15.4] - 2026-03-28
 
 ### Ajustado

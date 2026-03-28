@@ -5,34 +5,25 @@ namespace App\Services;
 use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Throwable;
 
 class SettingService
 {
     public function get(string $group, string $key, mixed $default = null, ?int $unitId = null): mixed
     {
-        if (! Schema::hasTable('system_settings')) {
+        if (! $this->settingsTableIsAvailable()) {
             return $default;
         }
 
         $cacheKey = "setting:{$unitId}:{$group}:{$key}";
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($group, $key, $default, $unitId) {
-            $query = SystemSetting::query()
-                ->where('group', $group)
-                ->where('key', $key);
+        $resolver = fn () => $this->resolveSettingValue($group, $key, $default, $unitId);
 
-            if ($unitId !== null) {
-                $query->where(function ($builder) use ($unitId) {
-                    $builder->where('unit_id', $unitId)->orWhereNull('unit_id');
-                })->orderByDesc('unit_id');
-            } else {
-                $query->whereNull('unit_id');
-            }
-
-            $setting = $query->first();
-
-            return $this->castStoredValue($setting?->type, $setting?->value, $default);
-        });
+        try {
+            return Cache::remember($cacheKey, now()->addMinutes(10), $resolver);
+        } catch (Throwable) {
+            return $resolver();
+        }
     }
 
     public function put(string $group, string $key, mixed $value, string $type = 'string', ?int $unitId = null, bool $isPublic = false): SystemSetting
@@ -58,5 +49,37 @@ class SettingService
             'array', 'json' => json_decode((string) $value, true) ?: [],
             default => $value,
         };
+    }
+
+    private function resolveSettingValue(string $group, string $key, mixed $default, ?int $unitId = null): mixed
+    {
+        try {
+            $query = SystemSetting::query()
+                ->where('group', $group)
+                ->where('key', $key);
+
+            if ($unitId !== null) {
+                $query->where(function ($builder) use ($unitId) {
+                    $builder->where('unit_id', $unitId)->orWhereNull('unit_id');
+                })->orderByDesc('unit_id');
+            } else {
+                $query->whereNull('unit_id');
+            }
+
+            $setting = $query->first();
+
+            return $this->castStoredValue($setting?->type, $setting?->value, $default);
+        } catch (Throwable) {
+            return $default;
+        }
+    }
+
+    private function settingsTableIsAvailable(): bool
+    {
+        try {
+            return Schema::hasTable('system_settings');
+        } catch (Throwable) {
+            return false;
+        }
     }
 }
