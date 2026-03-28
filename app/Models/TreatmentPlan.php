@@ -53,4 +53,9 @@ class TreatmentPlan extends Model
     {
         return $this->hasMany(AccountReceivable::class);
     }
+
+    public function insuranceAuthorizations(): HasMany
+    {
+        return $this->hasMany(InsuranceAuthorization::class);
+    }
 }

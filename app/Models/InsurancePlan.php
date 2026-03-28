@@ -14,6 +14,9 @@ class InsurancePlan extends Model
     {
         return [
             'default_discount_percentage' => 'decimal:2',
+            'requires_authorization' => 'boolean',
+            'authorization_valid_days' => 'integer',
+            'settlement_days' => 'integer',
             'settings' => 'array',
             'is_active' => 'boolean',
         ];
@@ -32,5 +35,10 @@ class InsurancePlan extends Model
     public function treatmentPlans(): HasMany
     {
         return $this->hasMany(TreatmentPlan::class);
+    }
+
+    public function authorizations(): HasMany
+    {
+        return $this->hasMany(InsuranceAuthorization::class);
     }
 }

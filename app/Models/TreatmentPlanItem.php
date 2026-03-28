@@ -41,4 +41,9 @@ class TreatmentPlanItem extends Model
     {
         return $this->hasMany(InventoryMovement::class);
     }
+
+    public function insuranceAuthorizationItems(): HasMany
+    {
+        return $this->hasMany(InsuranceAuthorizationItem::class);
+    }
 }

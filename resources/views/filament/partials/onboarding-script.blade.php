@@ -57,6 +57,10 @@
                     intro: 'Nesta central voce monitora prontuarios faltantes, documentos pendentes, itens vencidos do tratamento e planos sem retorno futuro.',
                 },
                 {
+                    element: document.querySelector('a[href*="/admin/insurance-authorization-center"]'),
+                    intro: 'Aqui voce monta guias de convenio, registra retorno da operadora, acompanha negacoes e exporta um JSON estruturado para futuras integracoes TISS.',
+                },
+                {
                     element: document.querySelector('a[href*="/admin/privacy-management-center"]'),
                     intro: 'Nesta central voce controla solicitacoes LGPD, exportacao estruturada dos dados do paciente e anonimizacao segura do cadastro.',
                 },

@@ -62,4 +62,9 @@ class Professional extends Model
     {
         return $this->hasMany(CommissionSettlement::class);
     }
+
+    public function insuranceAuthorizations(): HasMany
+    {
+        return $this->hasMany(InsuranceAuthorization::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminCalendarFeedController;
+use App\Http\Controllers\AdminInsuranceAuthorizationExportController;
 use App\Http\Controllers\AdminPrivacyExportController;
 use App\Http\Controllers\AppointmentRequestController;
 use App\Http\Controllers\BusinessIntelligenceExportController;
@@ -32,6 +33,9 @@ Route::get('/admin/bi/export/{section}', BusinessIntelligenceExportController::c
 Route::get('/admin/lgpd/exports/{request}', AdminPrivacyExportController::class)
     ->middleware(['auth', 'scheduled.access'])
     ->name('admin.privacy-exports.download');
+Route::get('/admin/insurance-authorizations/{authorization}/export', AdminInsuranceAuthorizationExportController::class)
+    ->middleware(['auth', 'scheduled.access'])
+    ->name('admin.insurance-authorizations.export');
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::post('/agendamento', [AppointmentRequestController::class, 'store'])->name('appointments.request');

@@ -31,7 +31,7 @@ class InsurancePlanResource extends ClinicResource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
-    protected static ?string $navigationLabel = 'Convênios';
+    protected static ?string $navigationLabel = 'Convenios';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Cadastros';
 
@@ -40,10 +40,23 @@ class InsurancePlanResource extends ClinicResource
         return $schema->components([
             Select::make('unit_id')->label('Unidade')->options(Unit::query()->pluck('name', 'id'))->searchable()->preload(),
             TextInput::make('name')->label('Nome')->required(),
-            TextInput::make('code')->label('Código'),
-            TextInput::make('default_discount_percentage')->label('Desconto padrão (%)')->numeric()->default(0),
-            TextInput::make('grace_days')->label('Carência (dias)')->numeric()->default(0),
-            Textarea::make('coverage_notes')->label('Cobertura e observações'),
+            TextInput::make('code')->label('Codigo'),
+            TextInput::make('ans_registration')->label('Registro ANS'),
+            TextInput::make('operator_document')->label('Documento da operadora'),
+            TextInput::make('default_discount_percentage')->label('Desconto padrao (%)')->numeric()->default(0),
+            TextInput::make('grace_days')->label('Carencia (dias)')->numeric()->default(0),
+            Toggle::make('requires_authorization')->label('Exige autorizacao')->default(false),
+            TextInput::make('authorization_valid_days')->label('Validade da autorizacao (dias)')->numeric()->default(30),
+            TextInput::make('settlement_days')->label('Prazo medio de fechamento (dias)')->numeric()->default(30),
+            Select::make('submission_channel')->label('Canal padrao')->options([
+                'manual' => 'Manual',
+                'email' => 'E-mail',
+                'portal' => 'Portal da operadora',
+                'api' => 'API',
+                'tiss' => 'TISS',
+            ]),
+            TextInput::make('tiss_table_code')->label('Tabela TISS padrao'),
+            Textarea::make('coverage_notes')->label('Cobertura e observacoes'),
             KeyValue::make('settings')->label('Regras internas'),
             Toggle::make('is_active')->label('Ativo')->default(true),
         ]);
@@ -57,9 +70,11 @@ class InsurancePlanResource extends ClinicResource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('name')->label('Convênio')->searchable()->sortable(),
-            TextColumn::make('code')->label('Código'),
+            TextColumn::make('name')->label('Convenio')->searchable()->sortable(),
+            TextColumn::make('code')->label('Codigo'),
             TextColumn::make('unit.name')->label('Unidade'),
+            IconColumn::make('requires_authorization')->label('Exige guia')->boolean(),
+            TextColumn::make('submission_channel')->label('Canal'),
             TextColumn::make('default_discount_percentage')->label('Desconto'),
             IconColumn::make('is_active')->label('Ativo')->boolean(),
         ])->recordActions([

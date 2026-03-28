@@ -106,7 +106,7 @@ class ClinicalGovernanceService
             return collect();
         }
 
-        $query = $this->scopePatients(
+        $patients = $this->scopePatients(
             Patient::query()->with(['unit', 'latestAppointment', 'documentAcceptances']),
             $unitId,
         )
@@ -114,15 +114,16 @@ class ClinicalGovernanceService
                 $query->where('status', 'approved');
             })
             ->withCount('documentAcceptances')
-            ->having('document_acceptances_count', '<', $requiredTemplateCount)
-            ->orderBy('document_acceptances_count')
-            ->orderByDesc('updated_at');
+            ->get()
+            ->filter(fn (Patient $patient): bool => (int) $patient->document_acceptances_count < $requiredTemplateCount)
+            ->sortBy('document_acceptances_count')
+            ->values();
 
         if ($limit !== null) {
-            $query->limit($limit);
+            $patients = $patients->take($limit)->values();
         }
 
-        return $query->get()->map(function (Patient $patient) use ($requiredTemplateCount) {
+        return $patients->map(function (Patient $patient) use ($requiredTemplateCount) {
             $patient->setAttribute('required_documents_count', $requiredTemplateCount);
             $patient->setAttribute('pending_documents_count', max(0, $requiredTemplateCount - (int) $patient->document_acceptances_count));
 

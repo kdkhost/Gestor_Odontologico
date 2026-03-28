@@ -15,3 +15,7 @@ Schedule::command('clinic:automation-run')
 Schedule::command('clinic:nfse-submit --limit=30')
     ->everyFifteenMinutes()
     ->withoutOverlapping();
+
+Schedule::command('clinic:insurance-authorizations-expire')
+    ->hourly()
+    ->withoutOverlapping();

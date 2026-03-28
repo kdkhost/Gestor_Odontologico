@@ -264,6 +264,7 @@
                 <a href="#pos-instalacao">Pos-instalacao</a>
                 <a href="#integracoes">Integracoes</a>
                 <a href="#governanca">Governanca clinica</a>
+                <a href="#convenios">Convenios e guias</a>
                 <a href="#lgpd">LGPD</a>
                 <a href="#cron">Cron e scheduler</a>
                 <a href="#node">Node.js</a>
@@ -375,6 +376,7 @@ php artisan migrate --seed</pre>
                     <li><strong>Profissionais:</strong> vincule o usuario, CRO, especialidade, cor da agenda e percentual de comissao.</li>
                     <li><strong>Cadeiras / salas:</strong> organize os recursos que entram no conflito de agenda.</li>
                     <li><strong>Procedimentos e planos:</strong> base de atendimento, duracao, preco e regras de consumo.</li>
+                    <li><strong>Convenios:</strong> configure ANS, documento, canal padrao, validade de autorizacao e se o plano exige guia previa.</li>
                     <li><strong>Templates de notificacao:</strong> WhatsApp operacional, lembretes, cobrancas, reativacao e assinatura.</li>
                     <li><strong>PWA:</strong> nome do app, icones, push e comportamento do portal quando instalado.</li>
                     <li><strong>Financeiro:</strong> Mercado Pago, parcelamentos internos, repasses e BI.</li>
@@ -434,8 +436,25 @@ php artisan migrate --seed</pre>
                 </ul>
             </section>
 
+            <section id="convenios" class="card">
+                <h3>7. Convenios, guias e retorno operacional</h3>
+                <p>O sistema agora possui uma central propria para autorizacoes de convenio, conectada aos planos de tratamento e aos procedimentos que exigem aprovacao previa.</p>
+
+                <ul class="checklist">
+                    <li>Leitura de planos aprovados elegiveis para montar guia.</li>
+                    <li>Critico automatico por convenio que exige autorizacao ou por procedimento marcado com aprovacao obrigatoria.</li>
+                    <li>Fila com rascunho, envio para operadora, retorno autorizado, parcial, negado e expirado.</li>
+                    <li>Exportacao JSON estruturada pronta para futura integracao TISS.</li>
+                    <li>Expiracao automatica das guias vencidas para evitar execucao clinica fora da validade.</li>
+                </ul>
+
+                <div class="callout">
+                    Fluxo recomendado: configurar o convenio, aprovar o plano de tratamento, gerar a guia, enviar para a operadora, registrar o retorno e so depois executar o item clinico autorizado.
+                </div>
+            </section>
+
             <section id="lgpd" class="card">
-                <h3>7. Central LGPD e solicitacoes do titular</h3>
+                <h3>8. Central LGPD e solicitacoes do titular</h3>
                 <p>O sistema possui uma central administrativa dedicada a privacidade, com exportacao estruturada do cadastro do paciente e anonimizacao assistida do registro principal.</p>
 
                 <ul class="checklist">
@@ -451,7 +470,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="cron" class="card">
-                <h3>8. Cron e scheduler</h3>
+                <h3>9. Cron e scheduler</h3>
                 <p>O modelo recomendado em hospedagem compartilhada e usar um unico cron chamando <code>schedule:run</code> a cada minuto. O proprio Laravel dispara as rotinas internas nas frequencias corretas.</p>
 
                 <div class="code-wrap">
@@ -488,6 +507,12 @@ php artisan migrate --seed</pre>
                             <td>Opcional direto. Ja esta dentro do scheduler.</td>
                         </tr>
                         <tr>
+                            <td><code>php artisan clinic:insurance-authorizations-expire</code></td>
+                            <td>A cada 1 hora</td>
+                            <td>Expira automaticamente guias de convenio que passaram da validade.</td>
+                            <td>Opcional direto. Ja esta dentro do scheduler.</td>
+                        </tr>
+                        <tr>
                             <td><code>php artisan clinic:commission-sync</code></td>
                             <td>Manual ou 1 vez por madrugada</td>
                             <td>Reprocessa comissoes de contas pagas antigas.</td>
@@ -506,11 +531,12 @@ php artisan migrate --seed</pre>
                     <button class="copy" data-copy="cron-diretos">Copiar crons diretos opcionais</button>
                     <pre id="cron-diretos">*/15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:automation-run >> /home/USUARIO/logs/automation.log 2>&1
 */15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:nfse-submit --limit=30 >> /home/USUARIO/logs/nfse.log 2>&1
+15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:insurance-authorizations-expire >> /home/USUARIO/logs/convenios-expire.log 2>&1
 5 2 * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:commission-sync >> /home/USUARIO/logs/commission-sync.log 2>&1</pre>
                 </div>
 
                 <div class="callout">
-                    Se voce usar o cron principal com <code>schedule:run</code>, nao precisa repetir os comandos <code>clinic:automation-run</code> e <code>clinic:nfse-submit</code> em crons separados.
+                    Se voce usar o cron principal com <code>schedule:run</code>, nao precisa repetir os comandos <code>clinic:automation-run</code>, <code>clinic:nfse-submit</code> e <code>clinic:insurance-authorizations-expire</code> em crons separados.
                 </div>
 
                 <div class="callout warn">
@@ -519,7 +545,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="node" class="card">
-                <h3>9. Preciso rodar Node.js?</h3>
+                <h3>10. Preciso rodar Node.js?</h3>
                 <p><strong>Para colocar este projeto em producao do jeito que foi entregue, nao.</strong> O sistema atual nao depende de build frontend em tempo de execucao para funcionar no servidor.</p>
 
                 <ul class="bullets">
@@ -542,7 +568,7 @@ npm run build</pre>
             </section>
 
             <section id="seguranca" class="card">
-                <h3>10. Boas praticas finais antes de abrir o sistema</h3>
+                <h3>11. Boas praticas finais antes de abrir o sistema</h3>
                 <ul class="checklist">
                     <li>Trocar a senha inicial do superadmin.</li>
                     <li>Configurar SSL e forcar acesso HTTPS.</li>

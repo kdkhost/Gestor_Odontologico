@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.14.0] - 2026-03-27
+
+### Adicionado
+- central de autorizacoes de convenio com fila de rascunho, envio, retorno, negacao e expiracao;
+- estruturacao de guias e itens autorizados vinculados ao plano de tratamento e aos procedimentos;
+- exportacao administrativa em JSON estruturado, pronta para futura integracao TISS;
+- configuracoes de convenio com ANS, canal padrao, validade da autorizacao e tabela TISS;
+- comando `clinic:insurance-authorizations-expire` para vencimento automatico das guias fora da validade;
+- cobertura automatizada para criacao, retorno, exportacao e expiracao de autorizacoes.
+
+### Ajustado
+- tour inicial passou a apresentar a nova central de convenios;
+- documentacao HTML e README agora detalham a camada de autorizacoes e o cron correspondente;
+- versao base do sistema atualizada para 1.14.0.
+
 ## [1.13.0] - 2026-03-27
 
 ### Adicionado

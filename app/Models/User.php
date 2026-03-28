@@ -124,4 +124,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(PrivacyRequest::class, 'processed_by_user_id');
     }
+
+    public function createdInsuranceAuthorizations(): HasMany
+    {
+        return $this->hasMany(InsuranceAuthorization::class, 'created_by_user_id');
+    }
 }

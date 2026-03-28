@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.13.0`
+- versao base atual: `1.14.0`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -43,6 +43,7 @@ O projeto ja esta preparado para:
 - central de faturamento fiscal com NFSe manual/homologacao, fila e protocolo;
 - central LGPD com exportacao e anonimização assistida;
 - central de governanca clinica com controle de prontuario, documentos e retorno;
+- central de autorizacoes de convenio com guia interna, retorno operacional e exportacao JSON estruturada;
 - manutencao com whitelist;
 - PWA com push e modo app quando instalado.
 
@@ -166,6 +167,7 @@ O painel possui um tour guiado reiniciavel para orientar:
 - gestao detalhada de repasses;
 - importacao de extrato com OFX;
 - faturamento fiscal e notas fiscais;
+- autorizacoes de convenio;
 - privacidade e LGPD;
 - governanca clinica;
 - configuracoes do sistema.
@@ -309,6 +311,23 @@ O painel possui a `Central de governanca clinica`, com:
 - planos aprovados sem retorno futuro agendado;
 - leitura gerencial para recepcao, coordenacao clinica e administrativo.
 
+## Convenios e autorizacoes
+
+O painel possui a `Central de autorizacoes de convenio`, com:
+
+- leitura de planos aprovados elegiveis para gerar guia;
+- criterio automatico por convenio que exige autorizacao ou procedimento que pede aprovacao;
+- guia em rascunho, envio para operadora, retorno autorizado, parcial ou negado;
+- expiracao automatica de guias vencidas;
+- exportacao JSON estruturada, pronta para futura integracao TISS ou faturamento assistido;
+- configuracao de convenio com ANS, documento da operadora, canal padrao, validade e tabela TISS.
+
+Comando operacional da camada:
+
+```bash
+php artisan clinic:insurance-authorizations-expire
+```
+
 ## Webhooks
 
 - Mercado Pago: `/webhooks/mercadopago`
@@ -357,7 +376,7 @@ URL sugerida apos publicar o sistema:
 ## Proximas camadas recomendadas
 
 - integracao municipal real de NFSe por provedor e cidade;
-- convenios externos e TISS;
+- integracao TISS real com operadoras e lote de faturamento por guia;
 - importacao OFX/CSV com mapeamento avancado por layout especifico de banco;
 - assinatura digital mais forte em documentos;
 - BI com metas comparativas por equipe e por especialidade.
