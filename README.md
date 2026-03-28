@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.15.5`
+- versao base atual: `1.15.6`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -106,6 +106,8 @@ Se `/instalar` responder `404` no cPanel, confirme primeiro que os arquivos [ind
 Se o sistema ainda nao estiver instalado e a aplicacao estiver sem `APP_KEY`, o bootstrap agora injeta uma chave temporaria apenas para o fluxo do instalador. Isso evita `MissingAppKeyException` em `/instalar` sem mascarar erro real depois que a instalacao for concluida.
 
 O login administrativo tambem passou a tolerar ausencia das tabelas `sessions` e `cache` no banco: o sistema recua para sessao em arquivo e ignora cache persistente de configuracoes nessa etapa, evitando erro 500 logo em `/admin/login`.
+
+Quando o sistema ainda nao esta instalado, o bootstrap agora tambem ignora cache antigo de configuracao e rotas para nao prender o servidor em estado anterior. E, se alguem abrir `/admin/login` antes da instalacao, o painel passa a redirecionar para `/instalar`.
 
 ### Via terminal
 

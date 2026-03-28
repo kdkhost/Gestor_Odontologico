@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\EnforceScheduledAccess;
+use App\Http\Middleware\EnsureApplicationInstalled;
 use App\Http\Middleware\EnsureSessionDriverIsAvailable;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -56,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
                 fn () => view('filament.partials.onboarding-script'),
             )
             ->middleware([
+                EnsureApplicationInstalled::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 EnsureSessionDriverIsAvailable::class,

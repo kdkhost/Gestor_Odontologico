@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.6] - 2026-03-28
+
+### Ajustado
+- bootstrap do instalador agora ignora cache antigo de configuracao e rotas quando precisa subir com chave temporaria, evitando que servidor com cache stale continue falhando mesmo apos a correcao do `APP_KEY`;
+- painel administrativo passa a redirecionar `/admin/login` para `/instalar` quando o sistema ainda nao foi instalado;
+- middleware de instalacao deixou de pular execucao no ambiente CLI, permitindo cobertura automatizada real desse fluxo.
+
 ## [1.15.5] - 2026-03-28
 
 ### Ajustado

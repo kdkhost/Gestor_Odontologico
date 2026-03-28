@@ -17,6 +17,7 @@ class InstallerBootstrap
         }
 
         $temporaryKey = self::temporaryKeyFor($basePath);
+        self::disableStaleBootstrapCaches($basePath);
 
         $_ENV['APP_KEY'] = $temporaryKey;
         $_SERVER['APP_KEY'] = $temporaryKey;
@@ -49,6 +50,29 @@ class InstallerBootstrap
     public static function temporaryKeyFor(string $basePath): string
     {
         return 'base64:'.base64_encode(hash('sha256', $basePath.'|gestor-odontologico-installer', true));
+    }
+
+    public static function disableStaleBootstrapCaches(string $basePath): void
+    {
+        $cacheBase = $basePath.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'framework'.DIRECTORY_SEPARATOR.'installer-bootstrap-cache';
+
+        if (! is_dir($cacheBase)) {
+            @mkdir($cacheBase, 0777, true);
+        }
+
+        $map = [
+            'APP_CONFIG_CACHE' => 'config.php',
+            'APP_ROUTES_CACHE' => 'routes.php',
+        ];
+
+        foreach ($map as $key => $filename) {
+            $path = $cacheBase.DIRECTORY_SEPARATOR.$filename;
+
+            $_ENV[$key] = $path;
+            $_SERVER[$key] = $path;
+
+            putenv($key.'='.$path);
+        }
     }
 
     public static function hasPersistentAppKey(string $envPath): bool

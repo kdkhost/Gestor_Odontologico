@@ -47,6 +47,8 @@ class InstallerBootstrapTest extends TestCase
         $this->assertTrue($applied);
         $this->assertSame(InstallerBootstrap::temporaryKeyFor($basePath), $_ENV['APP_KEY']);
         $this->assertSame(InstallerBootstrap::temporaryKeyFor($basePath), $_SERVER['APP_KEY']);
+        $this->assertStringContainsString('installer-bootstrap-cache', $_ENV['APP_CONFIG_CACHE']);
+        $this->assertStringContainsString('installer-bootstrap-cache', $_ENV['APP_ROUTES_CACHE']);
 
         $this->cleanupFixture($basePath);
     }

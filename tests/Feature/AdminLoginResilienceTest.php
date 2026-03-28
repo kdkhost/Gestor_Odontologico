@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Services\InstallerService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
@@ -26,5 +27,14 @@ class AdminLoginResilienceTest extends TestCase
         $this->get('/admin/login')
             ->assertOk()
             ->assertSee('Odonto Flow');
+    }
+
+    public function test_admin_login_redirects_to_installer_when_system_is_not_installed(): void
+    {
+        $this->clearInstallationState();
+        $this->assertFalse(app(InstallerService::class)->isInstalled());
+
+        $this->get('/admin/login')
+            ->assertRedirect(route('install.index'));
     }
 }

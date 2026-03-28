@@ -13,7 +13,7 @@ class EnsureApplicationInstalled
 
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->runningInConsole() || $this->installer->isInstalled()) {
+        if ($this->installer->isInstalled()) {
             return $next($request);
         }
 
