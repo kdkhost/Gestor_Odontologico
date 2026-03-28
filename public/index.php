@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\InstallerBootstrap;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,12 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
+
+InstallerBootstrap::applyTemporaryAppKeyIfNeeded(
+    dirname(__DIR__),
+    __DIR__.'/../.env',
+    __DIR__.'/../storage/app/installer/installed.lock',
+);
 
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */

@@ -340,6 +340,10 @@ php artisan migrate --seed</pre>
                 <div class="callout">
                     Se <code>/instalar</code> responder <code>404</code>, revise o envio dos arquivos <code>index.php</code> e <code>.htaccess</code> da raiz do projeto. Eles encaminham as rotas amigaveis para o front controller sem expor <code>/public</code>.
                 </div>
+
+                <div class="callout ok">
+                    Mesmo sem <code>APP_KEY</code> definitivo, o fluxo de instalacao agora sobe com uma chave temporaria apenas para o instalador. Depois da instalacao, o sistema volta a exigir a chave real da aplicacao normalmente.
+                </div>
             </section>
 
             <section id="instalador" class="card">

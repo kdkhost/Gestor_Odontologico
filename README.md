@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.15.3`
+- versao base atual: `1.15.4`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -102,6 +102,8 @@ Use a rota `/instalar`. O instalador:
 - registra a instalacao.
 
 Se `/instalar` responder `404` no cPanel, confirme primeiro que os arquivos [index.php](g:\Tudo\MEU-SISTEMA\CLINICA%20ODONTOLOGICA\index.php) e [.htaccess](g:\Tudo\MEU-SISTEMA\CLINICA%20ODONTOLOGICA\.htaccess) da raiz foram enviados junto com o projeto. Eles sao os responsaveis por encaminhar as rotas amigaveis para o Laravel sem expor `/public` na URL.
+
+Se o sistema ainda nao estiver instalado e a aplicacao estiver sem `APP_KEY`, o bootstrap agora injeta uma chave temporaria apenas para o fluxo do instalador. Isso evita `MissingAppKeyException` em `/instalar` sem mascarar erro real depois que a instalacao for concluida.
 
 ### Via terminal
 

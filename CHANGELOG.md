@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.4] - 2026-03-28
+
+### Ajustado
+- bootstrap publico agora injeta uma `APP_KEY` temporaria somente quando o sistema ainda nao foi instalado e nao existe chave persistida, evitando `MissingAppKeyException` em `/instalar`;
+- a chave temporaria nao e aplicada quando o lock de instalacao existe, preservando o erro real de configuracao em ambientes ja instalados;
+- cobertura automatizada adicionada para o bootstrap do instalador sem chave.
+
 ## [1.15.3] - 2026-03-28
 
 ### Ajustado
