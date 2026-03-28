@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class InsuranceAuthorizationItem extends Model
 {
@@ -35,5 +36,10 @@ class InsuranceAuthorizationItem extends Model
     public function procedure(): BelongsTo
     {
         return $this->belongsTo(Procedure::class);
+    }
+
+    public function claimItems(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimItem::class, 'insurance_authorization_item_id');
     }
 }

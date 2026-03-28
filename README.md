@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.14.0`
+- versao base atual: `1.15.0`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -44,6 +44,7 @@ O projeto ja esta preparado para:
 - central LGPD com exportacao e anonimização assistida;
 - central de governanca clinica com controle de prontuario, documentos e retorno;
 - central de autorizacoes de convenio com guia interna, retorno operacional e exportacao JSON estruturada;
+- central de faturamento de convenio com lote, glosa e reapresentacao TISS-ready;
 - manutencao com whitelist;
 - PWA com push e modo app quando instalado.
 
@@ -82,6 +83,7 @@ As permissoes sao modulares e geradas por acao e modulo a partir de `config/clin
 7. A comissao e calculada a partir do financeiro pago.
 8. O repasse e fechado, pago, documentado, importado no extrato e conciliado no painel.
 9. O faturamento fiscal pode transformar contas pagas em NFSe com fila, protocolo e emissao rastreavel.
+10. O convenio pode sair da guia autorizada para lote faturado, retorno da operadora e reapresentacao de glosa.
 
 ## Instalacao
 
@@ -168,6 +170,7 @@ O painel possui um tour guiado reiniciavel para orientar:
 - importacao de extrato com OFX;
 - faturamento fiscal e notas fiscais;
 - autorizacoes de convenio;
+- faturamento de convenio;
 - privacidade e LGPD;
 - governanca clinica;
 - configuracoes do sistema.
@@ -328,6 +331,23 @@ Comando operacional da camada:
 php artisan clinic:insurance-authorizations-expire
 ```
 
+## Faturamento de convenio e TISS-ready
+
+O painel possui a `Central de faturamento de convenio`, com:
+
+- agrupamento automatico de itens autorizados e executados por convenio e competencia;
+- criacao de lotes em rascunho com guias e itens faturados;
+- envio do lote para operadora com numero de lote e guias internas;
+- registro de retorno integral ou parcial, com glosa por item;
+- reapresentacao de glosa em lote novo, preservando o vinculo com o item original;
+- exportacao JSON estruturada em formato interno `TISS-ready`, pronta para futura integracao real.
+
+Comando operacional da camada:
+
+```bash
+php artisan clinic:insurance-claims-create-drafts --competence=2026-03
+```
+
 ## Webhooks
 
 - Mercado Pago: `/webhooks/mercadopago`
@@ -376,7 +396,7 @@ URL sugerida apos publicar o sistema:
 ## Proximas camadas recomendadas
 
 - integracao municipal real de NFSe por provedor e cidade;
-- integracao TISS real com operadoras e lote de faturamento por guia;
+- integracao TISS real com operadoras, protocolo externo e retorno por arquivo ou API;
 - importacao OFX/CSV com mapeamento avancado por layout especifico de banco;
 - assinatura digital mais forte em documentos;
 - BI com metas comparativas por equipe e por especialidade.

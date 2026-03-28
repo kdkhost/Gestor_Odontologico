@@ -86,4 +86,9 @@ class Unit extends Model
     {
         return $this->hasMany(InsuranceAuthorization::class);
     }
+
+    public function insuranceClaimBatches(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimBatch::class);
+    }
 }

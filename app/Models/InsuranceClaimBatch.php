@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class InsuranceAuthorization extends Model
+class InsuranceClaimBatch extends Model
 {
     use LogsModelActivity;
 
@@ -16,12 +16,14 @@ class InsuranceAuthorization extends Model
     protected function casts(): array
     {
         return [
-            'requested_total' => 'decimal:2',
-            'authorized_total' => 'decimal:2',
+            'guide_count' => 'integer',
+            'claimed_total' => 'decimal:2',
+            'approved_total' => 'decimal:2',
+            'received_total' => 'decimal:2',
+            'gloss_total' => 'decimal:2',
             'submitted_at' => 'datetime',
-            'authorized_at' => 'datetime',
-            'response_due_at' => 'datetime',
-            'valid_until' => 'datetime',
+            'processed_at' => 'datetime',
+            'paid_at' => 'datetime',
             'response_payload' => 'array',
             'meta' => 'array',
         ];
@@ -37,32 +39,17 @@ class InsuranceAuthorization extends Model
         return $this->belongsTo(InsurancePlan::class);
     }
 
-    public function patient(): BelongsTo
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function treatmentPlan(): BelongsTo
-    {
-        return $this->belongsTo(TreatmentPlan::class);
-    }
-
-    public function professional(): BelongsTo
-    {
-        return $this->belongsTo(Professional::class);
-    }
-
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
     }
 
-    public function items(): HasMany
+    public function submittedBy(): BelongsTo
     {
-        return $this->hasMany(InsuranceAuthorizationItem::class);
+        return $this->belongsTo(User::class, 'submitted_by_user_id');
     }
 
-    public function claimGuides(): HasMany
+    public function guides(): HasMany
     {
         return $this->hasMany(InsuranceClaimGuide::class);
     }

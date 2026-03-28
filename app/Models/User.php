@@ -129,4 +129,14 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(InsuranceAuthorization::class, 'created_by_user_id');
     }
+
+    public function createdInsuranceClaimBatches(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimBatch::class, 'created_by_user_id');
+    }
+
+    public function submittedInsuranceClaimBatches(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimBatch::class, 'submitted_by_user_id');
+    }
 }

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.15.0] - 2026-03-27
+
+### Adicionado
+- central de faturamento de convenio com lotes por competencia, retorno da operadora e reapresentacao de glosa;
+- estruturacao de lote, guia e item faturado com exportacao JSON TISS-ready interna;
+- comando `clinic:insurance-claims-create-drafts` para gerar rascunhos de faturamento por competencia;
+- camada de retorno financeiro do convenio com totais faturado, recebido e glosado no proprio lote;
+- cobertura automatizada para criar lote, registrar retorno parcial e abrir reapresentacao.
+
+### Ajustado
+- tour inicial agora apresenta a nova central de faturamento de convenio;
+- documentacao operacional foi expandida com cron e fluxo de faturamento TISS-ready;
+- versao base do sistema atualizada para 1.15.0.
+
 ## [1.14.0] - 2026-03-27
 
 ### Adicionado

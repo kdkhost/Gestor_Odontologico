@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminCalendarFeedController;
 use App\Http\Controllers\AdminInsuranceAuthorizationExportController;
+use App\Http\Controllers\AdminInsuranceClaimBatchExportController;
 use App\Http\Controllers\AdminPrivacyExportController;
 use App\Http\Controllers\AppointmentRequestController;
 use App\Http\Controllers\BusinessIntelligenceExportController;
@@ -36,6 +37,9 @@ Route::get('/admin/lgpd/exports/{request}', AdminPrivacyExportController::class)
 Route::get('/admin/insurance-authorizations/{authorization}/export', AdminInsuranceAuthorizationExportController::class)
     ->middleware(['auth', 'scheduled.access'])
     ->name('admin.insurance-authorizations.export');
+Route::get('/admin/insurance-claims/{batch}/export', AdminInsuranceClaimBatchExportController::class)
+    ->middleware(['auth', 'scheduled.access'])
+    ->name('admin.insurance-claims.export');
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::post('/agendamento', [AppointmentRequestController::class, 'store'])->name('appointments.request');

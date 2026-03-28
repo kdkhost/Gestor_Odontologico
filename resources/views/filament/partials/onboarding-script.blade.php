@@ -61,6 +61,10 @@
                     intro: 'Aqui voce monta guias de convenio, registra retorno da operadora, acompanha negacoes e exporta um JSON estruturado para futuras integracoes TISS.',
                 },
                 {
+                    element: document.querySelector('a[href*="/admin/insurance-claim-billing-center"]'),
+                    intro: 'Nesta central voce transforma itens autorizados e executados em lotes de faturamento, registra glosa, retorno da operadora e reapresentacao TISS-ready.',
+                },
+                {
                     element: document.querySelector('a[href*="/admin/privacy-management-center"]'),
                     intro: 'Nesta central voce controla solicitacoes LGPD, exportacao estruturada dos dados do paciente e anonimizacao segura do cadastro.',
                 },

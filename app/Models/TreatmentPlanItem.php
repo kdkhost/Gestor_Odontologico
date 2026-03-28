@@ -46,4 +46,9 @@ class TreatmentPlanItem extends Model
     {
         return $this->hasMany(InsuranceAuthorizationItem::class);
     }
+
+    public function claimItems(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimItem::class);
+    }
 }

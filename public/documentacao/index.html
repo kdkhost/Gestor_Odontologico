@@ -265,6 +265,7 @@
                 <a href="#integracoes">Integracoes</a>
                 <a href="#governanca">Governanca clinica</a>
                 <a href="#convenios">Convenios e guias</a>
+                <a href="#faturamento-convenio">Faturamento de convenio</a>
                 <a href="#lgpd">LGPD</a>
                 <a href="#cron">Cron e scheduler</a>
                 <a href="#node">Node.js</a>
@@ -453,8 +454,31 @@ php artisan migrate --seed</pre>
                 </div>
             </section>
 
+            <section id="faturamento-convenio" class="card">
+                <h3>8. Faturamento de convenio e lote TISS-ready</h3>
+                <p>Depois da etapa de autorizacao e execucao clinica, o sistema possui uma central especifica para transformar itens autorizados em lotes de faturamento por convenio e competencia.</p>
+
+                <ul class="checklist">
+                    <li>Agrupamento automatico por unidade, convenio e competencia mensal.</li>
+                    <li>Criacao de lote em rascunho com guias internas e itens faturados.</li>
+                    <li>Envio do lote com numero interno e trilha de submissao.</li>
+                    <li>Registro de retorno da operadora com valor recebido, glosa parcial ou glosa total por item.</li>
+                    <li>Reapresentacao de glosa em novo lote, mantendo referencia ao item original.</li>
+                    <li>Exportacao JSON estruturada em formato interno TISS-ready, pronta para futura integracao real com operadoras.</li>
+                </ul>
+
+                <div class="code-wrap">
+                    <button class="copy" data-copy="cron-convenio-faturamento">Copiar comando da camada</button>
+                    <pre id="cron-convenio-faturamento">php artisan clinic:insurance-claims-create-drafts --competence=2026-03</pre>
+                </div>
+
+                <div class="callout">
+                    Fluxo recomendado: executar o atendimento, gerar os lotes em rascunho da competencia, revisar o agrupamento, enviar para operadora, registrar o retorno e reapresentar glosas quando necessario.
+                </div>
+            </section>
+
             <section id="lgpd" class="card">
-                <h3>8. Central LGPD e solicitacoes do titular</h3>
+                <h3>9. Central LGPD e solicitacoes do titular</h3>
                 <p>O sistema possui uma central administrativa dedicada a privacidade, com exportacao estruturada do cadastro do paciente e anonimizacao assistida do registro principal.</p>
 
                 <ul class="checklist">
@@ -470,7 +494,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="cron" class="card">
-                <h3>9. Cron e scheduler</h3>
+                <h3>10. Cron e scheduler</h3>
                 <p>O modelo recomendado em hospedagem compartilhada e usar um unico cron chamando <code>schedule:run</code> a cada minuto. O proprio Laravel dispara as rotinas internas nas frequencias corretas.</p>
 
                 <div class="code-wrap">
@@ -513,6 +537,12 @@ php artisan migrate --seed</pre>
                             <td>Opcional direto. Ja esta dentro do scheduler.</td>
                         </tr>
                         <tr>
+                            <td><code>php artisan clinic:insurance-claims-create-drafts --competence=AAAA-MM</code></td>
+                            <td>1 vez por madrugada ou por competencia em rotina controlada</td>
+                            <td>Gera lotes em rascunho do faturamento de convenio para itens autorizados e executados.</td>
+                            <td>Opcional direto. Ja esta dentro do scheduler.</td>
+                        </tr>
+                        <tr>
                             <td><code>php artisan clinic:commission-sync</code></td>
                             <td>Manual ou 1 vez por madrugada</td>
                             <td>Reprocessa comissoes de contas pagas antigas.</td>
@@ -532,11 +562,12 @@ php artisan migrate --seed</pre>
                     <pre id="cron-diretos">*/15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:automation-run >> /home/USUARIO/logs/automation.log 2>&1
 */15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:nfse-submit --limit=30 >> /home/USUARIO/logs/nfse.log 2>&1
 15 * * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:insurance-authorizations-expire >> /home/USUARIO/logs/convenios-expire.log 2>&1
+30 1 * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:insurance-claims-create-drafts --competence=$(date +\%Y-\%m) >> /home/USUARIO/logs/convenios-faturamento.log 2>&1
 5 2 * * * /usr/local/bin/php /home/USUARIO/public_html/Gestor_Odontologico/artisan clinic:commission-sync >> /home/USUARIO/logs/commission-sync.log 2>&1</pre>
                 </div>
 
                 <div class="callout">
-                    Se voce usar o cron principal com <code>schedule:run</code>, nao precisa repetir os comandos <code>clinic:automation-run</code>, <code>clinic:nfse-submit</code> e <code>clinic:insurance-authorizations-expire</code> em crons separados.
+                    Se voce usar o cron principal com <code>schedule:run</code>, nao precisa repetir os comandos <code>clinic:automation-run</code>, <code>clinic:nfse-submit</code>, <code>clinic:insurance-authorizations-expire</code> e <code>clinic:insurance-claims-create-drafts</code> em crons separados.
                 </div>
 
                 <div class="callout warn">
@@ -545,7 +576,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="node" class="card">
-                <h3>10. Preciso rodar Node.js?</h3>
+                <h3>11. Preciso rodar Node.js?</h3>
                 <p><strong>Para colocar este projeto em producao do jeito que foi entregue, nao.</strong> O sistema atual nao depende de build frontend em tempo de execucao para funcionar no servidor.</p>
 
                 <ul class="bullets">
@@ -568,7 +599,7 @@ npm run build</pre>
             </section>
 
             <section id="seguranca" class="card">
-                <h3>11. Boas praticas finais antes de abrir o sistema</h3>
+                <h3>12. Boas praticas finais antes de abrir o sistema</h3>
                 <ul class="checklist">
                     <li>Trocar a senha inicial do superadmin.</li>
                     <li>Configurar SSL e forcar acesso HTTPS.</li>

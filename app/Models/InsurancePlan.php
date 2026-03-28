@@ -41,4 +41,9 @@ class InsurancePlan extends Model
     {
         return $this->hasMany(InsuranceAuthorization::class);
     }
+
+    public function claimBatches(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimBatch::class);
+    }
 }

@@ -19,3 +19,7 @@ Schedule::command('clinic:nfse-submit --limit=30')
 Schedule::command('clinic:insurance-authorizations-expire')
     ->hourly()
     ->withoutOverlapping();
+
+Schedule::command('clinic:insurance-claims-create-drafts')
+    ->dailyAt('01:30')
+    ->withoutOverlapping();

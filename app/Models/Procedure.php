@@ -44,4 +44,9 @@ class Procedure extends Model
     {
         return $this->hasMany(InsuranceAuthorizationItem::class);
     }
+
+    public function insuranceClaimItems(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimItem::class);
+    }
 }

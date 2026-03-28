@@ -67,4 +67,9 @@ class Professional extends Model
     {
         return $this->hasMany(InsuranceAuthorization::class);
     }
+
+    public function insuranceClaimGuides(): HasMany
+    {
+        return $this->hasMany(InsuranceClaimGuide::class);
+    }
 }
