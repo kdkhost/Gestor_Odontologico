@@ -114,4 +114,14 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(FiscalInvoice::class, 'created_by_user_id');
     }
+
+    public function requestedPrivacyRequests(): HasMany
+    {
+        return $this->hasMany(PrivacyRequest::class, 'requested_by_user_id');
+    }
+
+    public function processedPrivacyRequests(): HasMany
+    {
+        return $this->hasMany(PrivacyRequest::class, 'processed_by_user_id');
+    }
 }

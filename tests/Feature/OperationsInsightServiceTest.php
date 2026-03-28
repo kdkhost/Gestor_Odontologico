@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Models\Unit;
 use App\Services\OperationsInsightService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class OperationsInsightServiceTest extends TestCase
@@ -18,6 +19,8 @@ class OperationsInsightServiceTest extends TestCase
 
     public function test_it_builds_a_scoped_operational_snapshot(): void
     {
+        Carbon::setTestNow(Carbon::create(2026, 3, 27, 9, 0, 0, config('app.timezone')));
+
         $unitA = Unit::query()->create([
             'name' => 'Matriz Centro',
             'slug' => 'matriz-centro',
@@ -181,5 +184,7 @@ class OperationsInsightServiceTest extends TestCase
         $this->assertSame('Carla Nunes', $snapshot['alerts']['repeat_no_show_patients']->first()?->patient?->name);
         $this->assertCount(1, $snapshot['alerts']['reactivation_candidates']);
         $this->assertSame('Daniel Rocha', $snapshot['alerts']['reactivation_candidates']->first()?->name);
+
+        Carbon::setTestNow();
     }
 }

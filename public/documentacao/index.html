@@ -263,6 +263,7 @@
                 <a href="#instalador">Instalador web</a>
                 <a href="#pos-instalacao">Pos-instalacao</a>
                 <a href="#integracoes">Integracoes</a>
+                <a href="#lgpd">LGPD</a>
                 <a href="#cron">Cron e scheduler</a>
                 <a href="#node">Node.js</a>
                 <a href="#seguranca">Boas praticas</a>
@@ -420,8 +421,24 @@ php artisan migrate --seed</pre>
                 </table>
             </section>
 
+            <section id="lgpd" class="card">
+                <h3>6. Central LGPD e solicitacoes do titular</h3>
+                <p>O sistema possui uma central administrativa dedicada a privacidade, com exportacao estruturada do cadastro do paciente e anonimizacao assistida do registro principal.</p>
+
+                <ul class="checklist">
+                    <li>Tipos de solicitacao atuais: exportacao de dados e anonimizacao do cadastro.</li>
+                    <li>Download do pacote JSON em rota protegida do admin.</li>
+                    <li>Anonimizacao cobre cadastro do paciente, responsaveis, usuario do portal e assinaturas PWA.</li>
+                    <li>Registros clinicos, financeiros, documentais e fiscais permanecem preservados sob base legal de retencao.</li>
+                </ul>
+
+                <div class="callout">
+                    Fluxo recomendado: registrar a solicitacao na Central LGPD, processar internamente, baixar o pacote JSON quando for exportacao e registrar observacoes do atendimento ao titular.
+                </div>
+            </section>
+
             <section id="cron" class="card">
-                <h3>6. Cron e scheduler</h3>
+                <h3>7. Cron e scheduler</h3>
                 <p>O modelo recomendado em hospedagem compartilhada e usar um unico cron chamando <code>schedule:run</code> a cada minuto. O proprio Laravel dispara as rotinas internas nas frequencias corretas.</p>
 
                 <div class="code-wrap">
@@ -489,7 +506,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="node" class="card">
-                <h3>7. Preciso rodar Node.js?</h3>
+                <h3>8. Preciso rodar Node.js?</h3>
                 <p><strong>Para colocar este projeto em producao do jeito que foi entregue, nao.</strong> O sistema atual nao depende de build frontend em tempo de execucao para funcionar no servidor.</p>
 
                 <ul class="bullets">
@@ -512,7 +529,7 @@ npm run build</pre>
             </section>
 
             <section id="seguranca" class="card">
-                <h3>8. Boas praticas finais antes de abrir o sistema</h3>
+                <h3>9. Boas praticas finais antes de abrir o sistema</h3>
                 <ul class="checklist">
                     <li>Trocar a senha inicial do superadmin.</li>
                     <li>Configurar SSL e forcar acesso HTTPS.</li>

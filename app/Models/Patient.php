@@ -21,6 +21,8 @@ class Patient extends Model
         return [
             'birth_date' => 'date',
             'last_visit_at' => 'datetime',
+            'privacy_last_exported_at' => 'datetime',
+            'anonymized_at' => 'datetime',
             'is_active' => 'boolean',
             'whatsapp_opt_in' => 'boolean',
             'whatsapp_opt_in_at' => 'datetime',
@@ -81,5 +83,10 @@ class Patient extends Model
     public function fiscalInvoices(): HasMany
     {
         return $this->hasMany(FiscalInvoice::class);
+    }
+
+    public function privacyRequests(): HasMany
+    {
+        return $this->hasMany(PrivacyRequest::class);
     }
 }

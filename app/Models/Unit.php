@@ -76,4 +76,9 @@ class Unit extends Model
     {
         return $this->hasMany(FiscalInvoice::class);
     }
+
+    public function privacyRequests(): HasMany
+    {
+        return $this->hasMany(PrivacyRequest::class);
+    }
 }

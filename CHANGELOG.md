@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.12.0] - 2026-03-27
+
+### Adicionado
+- central LGPD no painel admin com fila de solicitacoes, prazo operacional e processamento assistido;
+- exportacao estruturada dos dados do paciente em JSON com download protegido;
+- anonimizacao segura do cadastro do paciente, responsaveis, usuario do portal e assinaturas PWA;
+- trilha de solicitacoes LGPD com status, base legal, observacoes e resultado processado;
+- cobertura automatizada para exportacao e anonimizacao.
+
+### Ajustado
+- tour inicial passou a apresentar a nova central de privacidade;
+- base do paciente agora registra data da ultima exportacao e anonimização.
+
 ## [1.11.1] - 2026-03-27
 
 ### Ajustado

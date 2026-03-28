@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.11.1`
+- versao base atual: `1.12.0`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -41,6 +41,7 @@ O projeto ja esta preparado para:
 - gestao detalhada de repasses com comprovante anexado;
 - importacao de extrato para conciliacao assistida, incluindo OFX e perfil por banco;
 - central de faturamento fiscal com NFSe manual/homologacao, fila e protocolo;
+- central LGPD com exportacao e anonimização assistida;
 - manutencao com whitelist;
 - PWA com push e modo app quando instalado.
 
@@ -164,6 +165,7 @@ O painel possui um tour guiado reiniciavel para orientar:
 - gestao detalhada de repasses;
 - importacao de extrato com OFX;
 - faturamento fiscal e notas fiscais;
+- privacidade e LGPD;
 - configuracoes do sistema.
 
 ## WhatsApp operacional
@@ -282,6 +284,18 @@ Para processar a fila pelo terminal:
 ```bash
 php artisan clinic:nfse-submit --limit=30
 ```
+
+## Privacidade e LGPD
+
+O painel possui a `Central LGPD`, com:
+
+- abertura de solicitacoes de exportacao ou anonimização do cadastro;
+- prazo operacional por solicitacao;
+- processamento assistido com trilha de quem solicitou e quem executou;
+- exportacao estruturada em JSON salvo em area protegida do sistema;
+- download administrativo protegido do pacote gerado;
+- anonimização segura do cadastro, responsaveis, usuario do portal e assinaturas PWA;
+- preservacao declarada de modulos clinicos, financeiros, documentais e fiscais sob base legal de retencao.
 
 ## Webhooks
 

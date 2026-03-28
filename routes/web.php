@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminCalendarFeedController;
+use App\Http\Controllers\AdminPrivacyExportController;
 use App\Http\Controllers\AppointmentRequestController;
 use App\Http\Controllers\BusinessIntelligenceExportController;
 use App\Http\Controllers\EvolutionWebhookController;
@@ -28,6 +29,9 @@ Route::get('/admin/agenda/feed', AdminCalendarFeedController::class)
 Route::get('/admin/bi/export/{section}', BusinessIntelligenceExportController::class)
     ->middleware(['auth', 'scheduled.access'])
     ->name('admin.bi.export');
+Route::get('/admin/lgpd/exports/{request}', AdminPrivacyExportController::class)
+    ->middleware(['auth', 'scheduled.access'])
+    ->name('admin.privacy-exports.download');
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::post('/agendamento', [AppointmentRequestController::class, 'store'])->name('appointments.request');
