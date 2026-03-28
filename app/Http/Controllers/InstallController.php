@@ -64,7 +64,7 @@ class InstallController extends Controller
                 ->withInput();
         }
 
-        return redirect()->route('filament.admin.auth.login')
+        return redirect()->route('admin.login')
             ->with('status', 'Sistema instalado com sucesso. Faça login com o superadmin criado.');
     }
 }

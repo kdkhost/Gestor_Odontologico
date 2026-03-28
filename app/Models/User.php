@@ -70,9 +70,22 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    public function canAccessPanel(Panel $panel): bool
+    public function canAccessAdminArea(): bool
     {
         return $this->is_active && $this->user_type !== 'patient';
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->canAccessAdminArea();
+    }
+
+    public function adminlte_desc(): string
+    {
+        return $this->unit?->name ?? match ($this->user_type) {
+            'staff' => 'Equipe interna',
+            default => ucfirst($this->user_type),
+        };
     }
 
     public function unit(): BelongsTo

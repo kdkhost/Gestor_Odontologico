@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.16.0] - 2026-03-28
+
+### Adicionado
+- shell administrativo em `AdminLTE 3.2` para login, dashboard, navegacao lateral e onboarding do painel;
+- modulos nativos para `Agenda administrativa`, `Pacientes` e `Perfil 360 do paciente` dentro do novo painel;
+- registry de modulos preparado para conviver com telas nativas do AdminLTE e telas legadas do core;
+- cobertura automatizada ampliada para redirecionamento de modulos nativos, agenda nativa e perfil nativo do paciente.
+
+### Ajustado
+- `/admin/modulos/{slug}` agora redireciona automaticamente para a rota nativa quando o modulo ja foi migrado;
+- menu e cards do dashboard passaram a respeitar o destino real de cada modulo, nativo ou legado;
+- versao base do sistema atualizada para `1.16.0`.
+
 ## [1.15.6] - 2026-03-28
 
 ### Ajustado

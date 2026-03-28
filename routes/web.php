@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAppointmentIndexController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminPatientIndexController;
+use App\Http\Controllers\Admin\AdminPatientProfileController;
+use App\Http\Controllers\Admin\AdminWorkspaceController;
 use App\Http\Controllers\AdminCalendarFeedController;
 use App\Http\Controllers\AdminInsuranceAuthorizationExportController;
 use App\Http\Controllers\AdminInsuranceClaimBatchExportController;
@@ -26,21 +32,25 @@ Route::get('/pwa/sw.js', [PwaController::class, 'serviceWorker'])->name('pwa.ser
 Route::get('/viacep/{cep}', [ViaCepController::class, 'show'])->name('viacep.show');
 Route::post('/webhooks/mercadopago', MercadoPagoWebhookController::class)->name('webhooks.mercadopago');
 Route::post('/webhooks/evolution', EvolutionWebhookController::class)->name('webhooks.evolution');
-Route::get('/admin/agenda/feed', AdminCalendarFeedController::class)
-    ->middleware(['auth', 'scheduled.access'])
-    ->name('admin.calendar.feed');
-Route::get('/admin/bi/export/{section}', BusinessIntelligenceExportController::class)
-    ->middleware(['auth', 'scheduled.access'])
-    ->name('admin.bi.export');
-Route::get('/admin/lgpd/exports/{request}', AdminPrivacyExportController::class)
-    ->middleware(['auth', 'scheduled.access'])
-    ->name('admin.privacy-exports.download');
-Route::get('/admin/insurance-authorizations/{authorization}/export', AdminInsuranceAuthorizationExportController::class)
-    ->middleware(['auth', 'scheduled.access'])
-    ->name('admin.insurance-authorizations.export');
-Route::get('/admin/insurance-claims/{batch}/export', AdminInsuranceClaimBatchExportController::class)
-    ->middleware(['auth', 'scheduled.access'])
-    ->name('admin.insurance-claims.export');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.attempt');
+
+    Route::middleware(['admin.user', 'scheduled.access'])->group(function () {
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+        Route::get('/agenda/feed', AdminCalendarFeedController::class)->name('calendar.feed');
+        Route::get('/agenda', AdminAppointmentIndexController::class)->name('appointments.index');
+        Route::get('/bi/export/{section}', BusinessIntelligenceExportController::class)->name('bi.export');
+        Route::get('/lgpd/exports/{request}', AdminPrivacyExportController::class)->name('privacy-exports.download');
+        Route::get('/insurance-authorizations/{authorization}/export', AdminInsuranceAuthorizationExportController::class)->name('insurance-authorizations.export');
+        Route::get('/insurance-claims/{batch}/export', AdminInsuranceClaimBatchExportController::class)->name('insurance-claims.export');
+        Route::get('/pacientes', AdminPatientIndexController::class)->name('patients.index');
+        Route::get('/pacientes/{patient}', AdminPatientProfileController::class)->name('patients.show');
+        Route::get('/', AdminDashboardController::class)->name('dashboard');
+        Route::get('/modulos/{slug}', AdminWorkspaceController::class)->name('workspace');
+    });
+});
 
 Route::get('/', function (InstallerService $installer) {
     if (! $installer->isInstalled()) {

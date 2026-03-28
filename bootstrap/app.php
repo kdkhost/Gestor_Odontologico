@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckMaintenanceAccess;
 use App\Http\Middleware\EnforceScheduledAccess;
+use App\Http\Middleware\EnsureAdminUser;
 use App\Http\Middleware\EnsureApplicationInstalled;
 use App\Http\Middleware\EnsureSessionDriverIsAvailable;
 use Illuminate\Foundation\Application;
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ]);
 
         $middleware->alias([
+            'admin.user' => EnsureAdminUser::class,
             'installed' => EnsureApplicationInstalled::class,
             'maintenance.whitelist' => CheckMaintenanceAccess::class,
             'scheduled.access' => EnforceScheduledAccess::class,

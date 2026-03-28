@@ -1,18 +1,18 @@
 # Gestor Odontologico
 
-Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, Filament 4 e MariaDB como banco principal, com SQLite opcional apenas para testes ou homologacao local.
+Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8.4+, AdminLTE 3.2 no painel administrativo, Filament 4 no core operacional e MariaDB como banco principal, com SQLite opcional apenas para testes ou homologacao local.
 
 ## Visao rapida
 
 - instalador automatico web em `/instalar`;
-- painel administrativo multiunidade em `/admin`;
+- painel administrativo multiunidade em `/admin` com shell AdminLTE 3.2;
 - portal do paciente em `/portal`;
 - documentacao HTML operacional em `/documentacao/`;
 - publicacao oficial do codigo em `https://github.com/kdkhost/Gestor_Odontologico`.
 
 ## Versao publicada
 
-- versao base atual: `1.15.6`
+- versao base atual: `1.16.0`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -20,7 +20,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 O projeto ja esta preparado para:
 
 - multiplas unidades;
-- painel administrativo em `/admin`;
+- painel administrativo em `/admin` com shell AdminLTE 3.2;
 - portal do paciente em `/portal`;
 - solicitacao publica de consulta em `/`;
 - instalador automatico em `/instalar`;
@@ -47,12 +47,27 @@ O projeto ja esta preparado para:
 - central de faturamento de convenio com lote, glosa e reapresentacao TISS-ready;
 - manutencao com whitelist;
 - PWA com push e modo app quando instalado.
+- modulos nativos no AdminLTE para agenda administrativa, pacientes e perfil 360 do paciente.
+
+## Painel administrativo
+
+O sistema agora trabalha com duas camadas complementares:
+
+- `AdminLTE 3.2` em `/admin` para login, dashboard, navegacao principal e modulos nativos mais usados;
+- `Filament core` em `/admin/core` para recursos legados, telas avancadas e migracao gradual sem perda de operacao.
+
+Modulos ja migrados para tela nativa:
+
+- `Agenda administrativa`
+- `Pacientes`
+- `Perfil 360 do paciente`
 
 ## Stack tecnica
 
 - Laravel 12
 - PHP 8.4+
-- Filament 4
+- AdminLTE 3.2
+- Filament 4 no core interno
 - Livewire 3
 - MariaDB como padrao
 - SQLite apenas para testes ou ambiente local opcional

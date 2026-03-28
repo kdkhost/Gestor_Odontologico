@@ -7,6 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/intro.min.js"></script>
     <script>
         (() => {
+            if (window.self !== window.top) {
+                return;
+            }
+
             const userId = @json(auth()->id());
             const autoStart = @json((bool) $autoStart);
             const storageKey = `odonto-flow-tour-completed:${userId}`;
@@ -21,59 +25,59 @@
                     intro: 'Use a barra lateral para navegar entre agenda, cadastros, notificacoes e configuracoes.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/visual-agenda"]'),
+                    element: document.querySelector('a[href*="/admin/core/visual-agenda"]'),
                     intro: 'A agenda visual mostra os atendimentos por periodo e aceita filtros por unidade, profissional e cadeira.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/notification-templates"]'),
+                    element: document.querySelector('a[href*="/admin/core/notification-templates"]'),
                     intro: 'Aqui voce personaliza templates operacionais de WhatsApp, push e e-mail.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/business-intelligence-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/business-intelligence-center"]'),
                     intro: 'Nesta central voce acompanha receita, metas, comissao, repasses e exporta dados gerenciais por periodo.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/commission-settlement-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/commission-settlement-center"]'),
                     intro: 'Aqui voce fecha repasses de comissao por profissional e controla o pagamento em lote.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/commission-settlements"]'),
+                    element: document.querySelector('a[href*="/admin/core/commission-settlements"]'),
                     intro: 'Nesta gestao detalhada voce anexa comprovantes, registra referencia bancaria e concilia o repasse manualmente.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/statement-reconciliation-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/statement-reconciliation-center"]'),
                     intro: 'Aqui voce importa extratos do banco para gerar sugestoes de conciliacao assistida por valor, referencia e data.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/fiscal-billing-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/fiscal-billing-center"]'),
                     intro: 'Nesta central voce transforma contas pagas em NFSe com rascunho, fila fiscal, protocolo e emissao rastreavel.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/fiscal-invoices"]'),
+                    element: document.querySelector('a[href*="/admin/core/fiscal-invoices"]'),
                     intro: 'Aqui voce acompanha cada nota fiscal, registra RPS, numero municipal, codigo de verificacao e cancelamento.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/clinical-governance-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/clinical-governance-center"]'),
                     intro: 'Nesta central voce monitora prontuarios faltantes, documentos pendentes, itens vencidos do tratamento e planos sem retorno futuro.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/insurance-authorization-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/insurance-authorization-center"]'),
                     intro: 'Aqui voce monta guias de convenio, registra retorno da operadora, acompanha negacoes e exporta um JSON estruturado para futuras integracoes TISS.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/insurance-claim-billing-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/insurance-claim-billing-center"]'),
                     intro: 'Nesta central voce transforma itens autorizados e executados em lotes de faturamento, registra glosa, retorno da operadora e reapresentacao TISS-ready.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/privacy-management-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/privacy-management-center"]'),
                     intro: 'Nesta central voce controla solicitacoes LGPD, exportacao estruturada dos dados do paciente e anonimizacao segura do cadastro.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/automation-center"]'),
+                    element: document.querySelector('a[href*="/admin/core/automation-center"]'),
                     intro: 'Nesta central voce configura a regua automatica de lembretes, cobranca preventiva e reativacao com execucao segura.',
                 },
                 {
-                    element: document.querySelector('a[href*="/admin/system-settings"]'),
+                    element: document.querySelector('a[href*="/admin/core/system-settings"]'),
                     intro: 'Nesta area voce ajusta rodape, versao, tour e regras globais de seguranca do WhatsApp.',
                 },
             ]).filter((step) => step.element);

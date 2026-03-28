@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\Pages\CoreLogin;
 use App\Http\Middleware\EnforceScheduledAccess;
 use App\Http\Middleware\EnsureApplicationInstalled;
 use App\Http\Middleware\EnsureSessionDriverIsAvailable;
@@ -29,9 +30,9 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
-            ->brandName('Odonto Flow')
-            ->login()
+            ->path('admin/core')
+            ->brandName('Odonto Flow Core')
+            ->login(CoreLogin::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
