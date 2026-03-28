@@ -53,6 +53,10 @@
                     intro: 'Aqui voce acompanha cada nota fiscal, registra RPS, numero municipal, codigo de verificacao e cancelamento.',
                 },
                 {
+                    element: document.querySelector('a[href*="/admin/clinical-governance-center"]'),
+                    intro: 'Nesta central voce monitora prontuarios faltantes, documentos pendentes, itens vencidos do tratamento e planos sem retorno futuro.',
+                },
+                {
                     element: document.querySelector('a[href*="/admin/privacy-management-center"]'),
                     intro: 'Nesta central voce controla solicitacoes LGPD, exportacao estruturada dos dados do paciente e anonimizacao segura do cadastro.',
                 },

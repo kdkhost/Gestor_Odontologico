@@ -263,6 +263,7 @@
                 <a href="#instalador">Instalador web</a>
                 <a href="#pos-instalacao">Pos-instalacao</a>
                 <a href="#integracoes">Integracoes</a>
+                <a href="#governanca">Governanca clinica</a>
                 <a href="#lgpd">LGPD</a>
                 <a href="#cron">Cron e scheduler</a>
                 <a href="#node">Node.js</a>
@@ -421,8 +422,20 @@ php artisan migrate --seed</pre>
                 </table>
             </section>
 
+            <section id="governanca" class="card">
+                <h3>6. Governanca clinica</h3>
+                <p>O sistema possui uma central dedicada a qualidade assistencial, pensada para evitar atendimento concluido sem fechamento clinico e tratamento aprovado sem continuidade operacional.</p>
+
+                <ul class="checklist">
+                    <li>Consultas concluidas sem prontuario clinico.</li>
+                    <li>Pacientes com tratamento aprovado e sem retorno futuro agendado.</li>
+                    <li>Itens do plano vencidos e ainda nao concluidos.</li>
+                    <li>Pacientes em tratamento com documentacao obrigatoria pendente.</li>
+                </ul>
+            </section>
+
             <section id="lgpd" class="card">
-                <h3>6. Central LGPD e solicitacoes do titular</h3>
+                <h3>7. Central LGPD e solicitacoes do titular</h3>
                 <p>O sistema possui uma central administrativa dedicada a privacidade, com exportacao estruturada do cadastro do paciente e anonimizacao assistida do registro principal.</p>
 
                 <ul class="checklist">
@@ -438,7 +451,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="cron" class="card">
-                <h3>7. Cron e scheduler</h3>
+                <h3>8. Cron e scheduler</h3>
                 <p>O modelo recomendado em hospedagem compartilhada e usar um unico cron chamando <code>schedule:run</code> a cada minuto. O proprio Laravel dispara as rotinas internas nas frequencias corretas.</p>
 
                 <div class="code-wrap">
@@ -506,7 +519,7 @@ php artisan migrate --seed</pre>
             </section>
 
             <section id="node" class="card">
-                <h3>8. Preciso rodar Node.js?</h3>
+                <h3>9. Preciso rodar Node.js?</h3>
                 <p><strong>Para colocar este projeto em producao do jeito que foi entregue, nao.</strong> O sistema atual nao depende de build frontend em tempo de execucao para funcionar no servidor.</p>
 
                 <ul class="bullets">
@@ -529,7 +542,7 @@ npm run build</pre>
             </section>
 
             <section id="seguranca" class="card">
-                <h3>9. Boas praticas finais antes de abrir o sistema</h3>
+                <h3>10. Boas praticas finais antes de abrir o sistema</h3>
                 <ul class="checklist">
                     <li>Trocar a senha inicial do superadmin.</li>
                     <li>Configurar SSL e forcar acesso HTTPS.</li>

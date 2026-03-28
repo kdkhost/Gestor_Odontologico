@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.12.0`
+- versao base atual: `1.13.0`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual
@@ -42,6 +42,7 @@ O projeto ja esta preparado para:
 - importacao de extrato para conciliacao assistida, incluindo OFX e perfil por banco;
 - central de faturamento fiscal com NFSe manual/homologacao, fila e protocolo;
 - central LGPD com exportacao e anonimização assistida;
+- central de governanca clinica com controle de prontuario, documentos e retorno;
 - manutencao com whitelist;
 - PWA com push e modo app quando instalado.
 
@@ -166,6 +167,7 @@ O painel possui um tour guiado reiniciavel para orientar:
 - importacao de extrato com OFX;
 - faturamento fiscal e notas fiscais;
 - privacidade e LGPD;
+- governanca clinica;
 - configuracoes do sistema.
 
 ## WhatsApp operacional
@@ -296,6 +298,16 @@ O painel possui a `Central LGPD`, com:
 - download administrativo protegido do pacote gerado;
 - anonimização segura do cadastro, responsaveis, usuario do portal e assinaturas PWA;
 - preservacao declarada de modulos clinicos, financeiros, documentais e fiscais sob base legal de retencao.
+
+## Governanca clinica
+
+O painel possui a `Central de governanca clinica`, com:
+
+- consultas concluidas sem prontuario clinico;
+- pacientes em tratamento com documentacao obrigatoria pendente;
+- itens planejados vencidos sem conclusao;
+- planos aprovados sem retorno futuro agendado;
+- leitura gerencial para recepcao, coordenacao clinica e administrativo.
 
 ## Webhooks
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.13.0] - 2026-03-27
+
+### Adicionado
+- central de governanca clinica no painel admin com foco em qualidade assistencial;
+- leitura de consultas concluidas sem prontuario, planos sem retorno futuro, documentos pendentes e itens vencidos;
+- cobertura automatizada para snapshot de governanca clinica por unidade.
+
+### Ajustado
+- tour inicial passou a apresentar a nova camada de governanca clinica;
+- versao base do sistema atualizada para 1.13.0.
+
 ## [1.12.0] - 2026-03-27
 
 ### Adicionado
