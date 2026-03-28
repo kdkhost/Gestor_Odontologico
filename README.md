@@ -12,7 +12,7 @@ Sistema multiunidade para clinica odontologica desenvolvido em Laravel 12, PHP 8
 
 ## Versao publicada
 
-- versao base atual: `1.15.2`
+- versao base atual: `1.15.3`
 - release local com commit humanizado e repositorio limpo
 
 ## Escopo atual

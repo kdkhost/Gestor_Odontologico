@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.3] - 2026-03-28
+
+### Ajustado
+- raiz do dominio agora redireciona explicitamente para `/instalar` quando o sistema ainda nao foi instalado e abre o site normalmente quando o lock de instalacao existe;
+- excecoes HTTP em `APP_DEBUG=true` agora usam o renderer original de debug do Laravel, em vez das telas customizadas de erro;
+- cobertura automatizada ampliada para validar o fluxo de redirecionamento do instalador e o render de debug para `404`.
+
 ## [1.15.2] - 2026-03-28
 
 ### Ajustado

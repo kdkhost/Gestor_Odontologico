@@ -15,6 +15,7 @@ use App\Http\Controllers\PortalDashboardController;
 use App\Http\Controllers\PortalDocumentController;
 use App\Http\Controllers\PwaController;
 use App\Http\Controllers\ViaCepController;
+use App\Services\InstallerService;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/instalar', [InstallController::class, 'index'])->name('install.index');
@@ -41,7 +42,13 @@ Route::get('/admin/insurance-claims/{batch}/export', AdminInsuranceClaimBatchExp
     ->middleware(['auth', 'scheduled.access'])
     ->name('admin.insurance-claims.export');
 
-Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/', function (InstallerService $installer) {
+    if (! $installer->isInstalled()) {
+        return redirect()->route('install.index');
+    }
+
+    return app(LandingController::class)->index();
+})->name('home');
 Route::post('/agendamento', [AppointmentRequestController::class, 'store'])->name('appointments.request');
 
 Route::prefix('portal')->name('portal.')->group(function () {
